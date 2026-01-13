@@ -1,55 +1,127 @@
 import streamlit as st
 import pandas as pd
+import calendar
+import sys
+
+def read_csv(PATH: str) -> pd.DataFrame:
+    try:
+        df = pd.read_csv(PATH)
+    except:
+        sys.exit('Unable to read the data, kindly verify the source and try again')
+    #abbr = dict(enumerate(calendar.month_abbr))
+    #abbr.pop(0)
+    #df['Type'] = pd.Categorical(
+    #    df['Type'], categories=list(abbr.values()), ordered=True)
+    return df
+
+def build_main_table(raw_data ) -> pd.DataFrame:
+  df = raw_data
+  with st.expander("Raw data"):
+    st.write(df)
+    st.data_editor(
+        df,
+        column_config={
+            "Level": st.column_config.ProgressColumn(
+                "Level",
+                help="Palmon level",
+                format="%f",
+                min_value=100,
+                max_value=250,
+                color="#006699"
+            ),
+            "Achievement": st.column_config.NumberColumn(
+                "Achievement",
+                min_value=0,
+                max_value=100,
+                format="percent",
+            ),
+            "Cost to max": st.column_config.NumberColumn(
+                "Cost to max",
+                format="localized",
+            ),
+            "RankPower": st.column_config.NumberColumn(
+                "RankPower",
+                format="localized",
+            ),
+            "URL": st.column_config.ImageColumn(
+                "Base preview",
+                width="small"
+            ),
+            "URL Mutation": st.column_config.ImageColumn(
+                "Mutation preview",
+                width="small"
+            )
+        },
+        hide_index=False,
+        )   
+
+def build_main_chart(raw_data):
+  with st.expander("Chart"):
+    st.bar_chart(raw_data,x="Type",y="Level")
+
+def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str):
+  palmon_types_df = raw_data.pivot_table(values=val_value, index=val_index, columns=val_columns)
+  with st.expander("Pivot table"):
+    st.dataframe(palmon_types_df, use_container_width=True)
+
+def pg_loc_1():
+   if st.session_state['data_loc'] is not None:
+      build_main_table(st.session_state['data_loc'])
+
+def pg_loc_2():
+   if st.session_state['data_loc'] is not None:
+      build_main_chart(st.session_state['data_loc'])
+
+def pg_loc_3():
+   if st.session_state['data_loc'] is not None:
+      build_pivot_table(st.session_state['data_loc'],'Level','Type','Skill')
+         
+def pg_srv_1():
+   if st.session_state['data_srv'] is not None:
+      build_main_table(st.session_state['data_srv'])
+
+def pg_srv_2():
+   if st.session_state['data_srv'] is not None:
+      build_main_chart(st.session_state['data_srv'])
+   
+def pg_srv_3():
+   if st.session_state['data_srv'] is not None:
+      build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill')
 
 st.title("🎈 CSV file app")
 st.write(
     "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
 )
 uploaded_file = st.file_uploader("Choose a file")
+
+PATH = 'data_files/PS_streamlit_US.csv'
+df_srv = read_csv(PATH)
+
+if 'data_srv' not in st.session_state:
+   st.session_state['data_srv'] = {}
+
+if 'data_loc' not in st.session_state:
+   st.session_state['data_loc'] = {}
+
+if df_srv is not None:
+   st.session_state['data_srv'] = df_srv
+
 if uploaded_file is not None:
-  df = pd.read_csv(uploaded_file)
-  with st.expander("Raw data"):
-    st.write(df)
-  st.data_editor(
-    df,
-    column_config={
-        "Level": st.column_config.ProgressColumn(
-            "Level",
-            help="Palmon level",
-            format="%f",
-            min_value=100,
-            max_value=250,
-            color="#006699"
-        ),
-        "Achievement": st.column_config.NumberColumn(
-            "Achievement",
-            min_value=0,
-            max_value=100,
-            format="percent",
-        ),
-        "Cost to max": st.column_config.NumberColumn(
-            "Cost to max",
-            format="localized",
-        ),
-        "RankPower": st.column_config.NumberColumn(
-            "RankPower",
-            format="localized",
-        ),
-        "URL": st.column_config.ImageColumn(
-            "Base preview",
-            width="small"
-        ),
-        "URL Mutation": st.column_config.ImageColumn(
-            "Mutation preview",
-            width="small"
-        )
-    },
-    hide_index=False,
-)
-  #st.dataframe(df.style.highlight_max(color='yellow',axis=0))
-  #st.bar_chart(data=None, *, x=None, y=None, x_label=None, y_label=None, color=None, horizontal=False, sort=True, stack=None, width="stretch", height="content", use_container_width=None)
-  with st.expander("Chart"):
-    st.bar_chart(df,x="Type",y="Level")
-  palmon_types_df = df.pivot_table(values='Level', index='Type', columns='Skill')
-  with st.expander("Pivot table"):
-    st.dataframe(palmon_types_df, use_container_width=True)
+  df_loc = pd.read_csv(uploaded_file)
+  st.session_state['data_loc'] = df_loc
+
+pages = {
+    "Local data": [
+        st.Page(pg_loc_1, title="Table"),
+        st.Page(pg_loc_2, title="Chart"),
+        st.Page(pg_loc_3, title="Pivot"),
+    ],
+    "Server data": [
+        st.Page(pg_srv_1, title="Table"),
+        st.Page(pg_srv_2, title="Chart"),
+        st.Page(pg_srv_3, title="Pivot"),
+    ],
+}
+
+pg = st.navigation(pages)
+pg.run()

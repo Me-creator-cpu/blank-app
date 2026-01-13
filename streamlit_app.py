@@ -20,7 +20,7 @@ def read_csv(PATH: str) -> pd.DataFrame:
 def build_main_table(raw_data) -> pd.DataFrame:
   df = raw_data
   with st.expander("Raw data", expanded=True):
-    st.write(df)
+    # st.write(df)
     st.data_editor(
         df,
         column_config={

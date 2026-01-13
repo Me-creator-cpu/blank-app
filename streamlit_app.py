@@ -3,6 +3,9 @@ import pandas as pd
 import calendar
 import sys
 
+global uploaded_file
+uploaded_file = None
+
 def read_csv(PATH: str) -> pd.DataFrame:
     try:
         df = pd.read_csv(PATH)
@@ -14,9 +17,9 @@ def read_csv(PATH: str) -> pd.DataFrame:
     #    df['Type'], categories=list(abbr.values()), ordered=True)
     return df
 
-def build_main_table(raw_data ) -> pd.DataFrame:
+def build_main_table(raw_data) -> pd.DataFrame:
   df = raw_data
-  with st.expander("Raw data"):
+  with st.expander("Raw data", expanded=True):
     st.write(df)
     st.data_editor(
         df,
@@ -56,13 +59,29 @@ def build_main_table(raw_data ) -> pd.DataFrame:
         )   
 
 def build_main_chart(raw_data):
-  with st.expander("Chart"):
+  with st.expander("Chart", expanded=True):
     st.bar_chart(raw_data,x="Type",y="Level")
 
 def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str):
   palmon_types_df = raw_data.pivot_table(values=val_value, index=val_index, columns=val_columns)
-  with st.expander("Pivot table"):
+  with st.expander("Pivot table", expanded=True):
     st.dataframe(palmon_types_df, use_container_width=True)
+
+def pg_home():
+# st.title("🎈 CSV file app")
+# st.write(
+#     "Palmon data test"
+# )    
+    st.header("Palmon data test", divider="blue")
+    st.subheader("Choose local data (to upload) or server data (git)", divider=True)
+
+def pg_loc_0():
+   uploaded_file = st.file_uploader("Choose a file")
+   if uploaded_file is not None:
+    df_loc = pd.read_csv(uploaded_file)
+    st.session_state['data_loc'] = df_loc
+    st.toast("File loaded", icon="🎉")
+    st.balloons()
 
 def pg_loc_1():
    if st.session_state['data_loc'] is not None:
@@ -88,11 +107,11 @@ def pg_srv_3():
    if st.session_state['data_srv'] is not None:
       build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill')
 
-st.title("🎈 CSV file app")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
-uploaded_file = st.file_uploader("Choose a file")
+# st.title("🎈 CSV file app")
+# st.write(
+#     "Palmon data test"
+# )
+#uploaded_file = st.file_uploader("Choose a file")
 
 PATH = 'data_files/PS_streamlit_US.csv'
 df_srv = read_csv(PATH)
@@ -111,15 +130,17 @@ if uploaded_file is not None:
   st.session_state['data_loc'] = df_loc
 
 pages = {
+    "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
     "Local data": [
-        st.Page(pg_loc_1, title="Table"),
-        st.Page(pg_loc_2, title="Chart"),
-        st.Page(pg_loc_3, title="Pivot"),
+        st.Page(pg_loc_0, title="Select file...", icon="📋"),
+        st.Page(pg_loc_1, title="Table", icon="📅"),
+        st.Page(pg_loc_2, title="Chart", icon="📊"),
+        st.Page(pg_loc_3, title="Pivot", icon="📅"),
     ],
     "Server data": [
-        st.Page(pg_srv_1, title="Table"),
-        st.Page(pg_srv_2, title="Chart"),
-        st.Page(pg_srv_3, title="Pivot"),
+        st.Page(pg_srv_1, title="Table", icon="📅"),
+        st.Page(pg_srv_2, title="Chart", icon="📊"),
+        st.Page(pg_srv_3, title="Pivot", icon="📅"),
     ],
 }
 

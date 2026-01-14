@@ -6,7 +6,9 @@ from streamlit_javascript import st_javascript
 from user_agents import parse
 
 global uploaded_file
+global is_session_pc
 uploaded_file = None
+is_session_pc = True
 
 def init():
    ua_string = str(st_javascript("""window.navigator.userAgent;"""))
@@ -14,6 +16,7 @@ def init():
    st.session_state.is_session_pc = user_agent.is_pc
    st.info(ua_string)
    st.info(st.session_state.is_session_pc)
+   is_session_pc = st.session_state.is_session_pc
    #st.text("This is text\n[and more text](that's not a Markdown link).")
 
 def read_csv(PATH: str) -> pd.DataFrame:
@@ -82,7 +85,7 @@ def pg_home():
 # st.write(
 #     "Palmon data test"
 # )    
-    init()
+    # init()
     st.header("File data test", divider="blue")
     st.subheader("Choose local data (to upload) or server data (git)", divider=True)
 
@@ -140,20 +143,32 @@ if uploaded_file is not None:
   df_loc = pd.read_csv(uploaded_file)
   st.session_state['data_loc'] = df_loc
 
-pages = {
-    "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
-    "Local data": [
-        st.Page(pg_loc_0, title="Select file...", icon="📋"),
-        st.Page(pg_loc_1, title="Table", icon="📅"),
-        st.Page(pg_loc_2, title="Chart", icon="📊"),
-        st.Page(pg_loc_3, title="Pivot", icon="📅"),
-    ],
-    "Server data": [
-        st.Page(pg_srv_1, title="Table", icon="📅"),
-        st.Page(pg_srv_2, title="Chart", icon="📊"),
-        st.Page(pg_srv_3, title="Pivot", icon="📅"),
-    ],
-}
+init()
+
+if is_session_pc == True:
+    pages = {
+        "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
+        "Local data": [
+            st.Page(pg_loc_0, title="Select file...", icon="📋"),
+            st.Page(pg_loc_1, title="Table", icon="📅"),
+            st.Page(pg_loc_2, title="Chart", icon="📊"),
+            st.Page(pg_loc_3, title="Pivot", icon="📅"),
+        ],
+        "Server data": [
+            st.Page(pg_srv_1, title="Table", icon="📅"),
+            st.Page(pg_srv_2, title="Chart", icon="📊"),
+            st.Page(pg_srv_3, title="Pivot", icon="📅"),
+        ],
+    }
+    else
+    pages = {
+        "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
+        "Server data": [
+            st.Page(pg_srv_1, title="Table", icon="📅"),
+            st.Page(pg_srv_2, title="Chart", icon="📊"),
+            st.Page(pg_srv_3, title="Pivot", icon="📅"),
+        ],
+    }    
 
 pg = st.navigation(pages)
 pg.run()

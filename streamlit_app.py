@@ -2,9 +2,19 @@ import streamlit as st
 import pandas as pd
 import calendar
 import sys
+from streamlit_javascript import st_javascript
+from user_agents import parse
 
 global uploaded_file
 uploaded_file = None
+
+def init():
+   ua_string = str(st_javascript("""window.navigator.userAgent;"""))
+   user_agent = parse(ua_string)
+   st.session_state.is_session_pc = user_agent.is_pc
+   st.info(ua_string)
+   st.info(st.session_state.is_session_pc)
+   #st.text("This is text\n[and more text](that's not a Markdown link).")
 
 def read_csv(PATH: str) -> pd.DataFrame:
     try:
@@ -72,7 +82,8 @@ def pg_home():
 # st.write(
 #     "Palmon data test"
 # )    
-    st.header("Palmon data test", divider="blue")
+    init()
+    st.header("File data test", divider="blue")
     st.subheader("Choose local data (to upload) or server data (git)", divider=True)
 
 def pg_loc_0():

@@ -160,7 +160,8 @@ if is_session_pc == True:
             st.Page(pg_srv_3, title="Pivot", icon="📅"),
         ],
     }
-    else
+
+if is_session_pc == False:
     pages = {
         "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
         "Server data": [

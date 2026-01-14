@@ -7,6 +7,7 @@ from streamlit_javascript import st_javascript
 from user_agents import parse
 from streamlit_dynamic_filters import DynamicFilters
 
+# Modifier en conséquence le fichier: requirements.txt
 # pip install streamlit-javascript
 # pip install pyyaml ua-parser user-agents
 # pip install streamlit-dynamic-filters

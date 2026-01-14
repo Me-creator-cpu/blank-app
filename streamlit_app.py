@@ -15,8 +15,8 @@ def init():
    ua_string = str(st_javascript("""window.navigator.userAgent;"""))
    user_agent = parse(ua_string)
    st.session_state.is_session_pc = user_agent.is_pc
-   st.info(ua_string)
-   st.info(st.session_state.is_session_pc)
+   #st.info(ua_string)
+   #st.info(st.session_state.is_session_pc)
    is_session_pc = str(st.session_state.is_session_pc)
    #st.text("This is text\n[and more text](that's not a Markdown link).")
 
@@ -35,9 +35,13 @@ def build_main_table(raw_data) -> pd.DataFrame:
   df = raw_data
   with st.expander("Raw data", expanded=True):
     # st.write(df)
-    st.data_editor(
+    #st.data_editor(
+    st.dataframe(
         df,
         column_config={
+            "Name": st.column_config.TextColumn( "Name", pinned = True ),
+            "Type": st.column_config.TextColumn( "Type", pinned = True ),
+            "Skill": st.column_config.TextColumn( "Skill", pinned = True ),
             "Level": st.column_config.ProgressColumn(
                 "Level",
                 help="Palmon level",
@@ -45,6 +49,12 @@ def build_main_table(raw_data) -> pd.DataFrame:
                 min_value=100,
                 max_value=250,
                 color="#006699"
+            ),
+            "Step": st.column_config.NumberColumn(
+                "Step",
+                min_value=0,
+                max_value=5,
+                format="%d ⭐",
             ),
             "Achievement": st.column_config.NumberColumn(
                 "Achievement",
@@ -69,23 +79,33 @@ def build_main_table(raw_data) -> pd.DataFrame:
                 width="small"
             )
         },
-        hide_index=False,
+        hide_index=True,
         )   
 
 def build_main_chart(raw_data):
   with st.expander("Chart", expanded=True):
-    st.bar_chart(raw_data,x="Type",y="Level")
+    st.bar_chart(
+       raw_data,
+       x="Type",
+       y="Level",
+       horizontal=True
+    )
 
 def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str):
   palmon_types_df = raw_data.pivot_table(values=val_value, index=val_index, columns=val_columns)
   with st.expander("Pivot table", expanded=True):
-    st.dataframe(palmon_types_df, use_container_width=True)
+    st.dataframe(
+       palmon_types_df,
+       column_config={
+          "Type": st.column_config.TextColumn( "Type", pinned = True ),
+          "Attack": st.column_config.NumberColumn( "⚔ Attack", step=".01" ), #:crossed_swords:
+          "Defend": st.column_config.NumberColumn( "🛡 Defend", step=".01" ), #:shield:
+        },
+       use_container_width=True,
+       hide_index=None
+    )
 
-def pg_home():
-# st.title("🎈 CSV file app")
-# st.write(
-#     "Palmon data test"
-# )    
+def pg_home(): 
     # init()
     st.header("File data test", divider="blue")
     st.subheader("Choose local data (to upload) or server data (git)", divider=True)
@@ -146,7 +166,7 @@ if uploaded_file is not None:
 
 init()
 time.sleep(2)  # Wait 2 seconds
-st.warning(st.session_state.is_session_pc)
+#st.warning(st.session_state.is_session_pc)
 
 if str(st.session_state.is_session_pc) == 'True':
     pages = {

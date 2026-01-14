@@ -8,7 +8,7 @@ from user_agents import parse
 global uploaded_file
 global is_session_pc
 uploaded_file = None
-is_session_pc = True
+is_session_pc = 'True'
 
 def init():
    ua_string = str(st_javascript("""window.navigator.userAgent;"""))
@@ -16,7 +16,7 @@ def init():
    st.session_state.is_session_pc = user_agent.is_pc
    st.info(ua_string)
    st.info(st.session_state.is_session_pc)
-   is_session_pc = st.session_state.is_session_pc
+   is_session_pc = str(st.session_state.is_session_pc)
    #st.text("This is text\n[and more text](that's not a Markdown link).")
 
 def read_csv(PATH: str) -> pd.DataFrame:
@@ -145,7 +145,7 @@ if uploaded_file is not None:
 
 init()
 
-if is_session_pc == True:
+if is_session_pc == 'True':
     pages = {
         "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
         "Local data": [
@@ -161,7 +161,7 @@ if is_session_pc == True:
         ],
     }
 
-if is_session_pc == False:
+if is_session_pc != 'True':
     pages = {
         "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
         "Server data": [

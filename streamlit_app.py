@@ -5,11 +5,69 @@ import sys
 import time
 from streamlit_javascript import st_javascript
 from user_agents import parse
+from streamlit_dynamic_filters import DynamicFilters
+
+# pip install streamlit-javascript
+# pip install pyyaml ua-parser user-agents
+# pip install streamlit-dynamic-filters
+# https://levelup.gitconnected.com/dynamic-dataframe-filtering-in-streamlit-aeae5de0f92a
 
 global uploaded_file
 global is_session_pc
 uploaded_file = None
 is_session_pc = 'True'
+st.session_state.dataframe_filters = {}
+
+option_menu = {
+    0: ":material/home:",
+    1: "📋",
+    2: "📅",
+    3: "📊",
+    4: "📅"
+} #option_menu[x]
+
+column_config={
+    "Name": st.column_config.TextColumn( "Name", pinned = True ),
+    "Type": st.column_config.TextColumn( "Type", pinned = True ),
+    "Skill": st.column_config.TextColumn( "Skill", pinned = True ),
+    "Level": st.column_config.ProgressColumn(
+        "Level",
+        help="Palmon level",
+        format="%f",
+        min_value=100,
+        max_value=250,
+        color="#006699"
+    ),
+    "Step": st.column_config.NumberColumn(
+        "Step",
+        min_value=0,
+        max_value=5,
+        format="%d ⭐",
+    ),
+    "Achievement": st.column_config.NumberColumn(
+        "Achievement",
+        min_value=0,
+        max_value=100,
+        format="percent",
+    ),
+    "Cost to max": st.column_config.NumberColumn(
+        "Cost to max",
+        #format="localized",
+        format="compact",
+    ),
+    "RankPower": st.column_config.NumberColumn(
+        "RankPower",
+        format="localized",
+    ),
+    "URL": st.column_config.ImageColumn(
+        "Base preview",
+        width="small"
+    ),
+    "URL Mutation": st.column_config.ImageColumn(
+        "Mutation preview",
+        width="small"
+    )
+}
 
 def init():
    ua_string = str(st_javascript("""window.navigator.userAgent;"""))
@@ -33,57 +91,32 @@ def read_csv(PATH: str) -> pd.DataFrame:
 
 def build_main_table(raw_data) -> pd.DataFrame:
   df = raw_data
-  with st.expander("Raw data", expanded=True):
-    # st.write(df)
-    #st.data_editor(
+  if st.session_state['data_loc'] is not None:
+     df2 = df.copy()
+     dynamic_filters = DynamicFilters(df=df2, filters=['Type', 'Skill', 'Team'])
+
+     with st.expander("Filtered data", expanded=False, width="stretch"):
+        dynamic_filters.display_filters()
+        #dynamic_filters.display_filters(location='sidebar')
+        dynamic_filters.display_df(
+           height = "content",
+           width = "content",
+           column_config=column_config,
+           hide_index=True
+        )
+
+  with st.expander("Raw data", expanded=False, width="stretch"):
     st.dataframe(
         df,
-        column_config={
-            "Name": st.column_config.TextColumn( "Name", pinned = True ),
-            "Type": st.column_config.TextColumn( "Type", pinned = True ),
-            "Skill": st.column_config.TextColumn( "Skill", pinned = True ),
-            "Level": st.column_config.ProgressColumn(
-                "Level",
-                help="Palmon level",
-                format="%f",
-                min_value=100,
-                max_value=250,
-                color="#006699"
-            ),
-            "Step": st.column_config.NumberColumn(
-                "Step",
-                min_value=0,
-                max_value=5,
-                format="%d ⭐",
-            ),
-            "Achievement": st.column_config.NumberColumn(
-                "Achievement",
-                min_value=0,
-                max_value=100,
-                format="percent",
-            ),
-            "Cost to max": st.column_config.NumberColumn(
-                "Cost to max",
-                format="localized",
-            ),
-            "RankPower": st.column_config.NumberColumn(
-                "RankPower",
-                format="localized",
-            ),
-            "URL": st.column_config.ImageColumn(
-                "Base preview",
-                width="small"
-            ),
-            "URL Mutation": st.column_config.ImageColumn(
-                "Mutation preview",
-                width="small"
-            )
-        },
+        height = "content",
+        width = "content",
+        selection_mode = "single-row",
+        column_config=column_config,
         hide_index=True,
         )   
 
 def build_main_chart(raw_data):
-  with st.expander("Chart", expanded=True):
+  with st.expander("Chart", expanded=True, width="stretch"):
     st.bar_chart(
        raw_data,
        x="Type",
@@ -93,17 +126,18 @@ def build_main_chart(raw_data):
 
 def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str):
   palmon_types_df = raw_data.pivot_table(values=val_value, index=val_index, columns=val_columns)
-  with st.expander("Pivot table", expanded=True):
+  with st.expander("Pivot table", expanded=True, width="stretch"):
     st.dataframe(
-       palmon_types_df,
+       palmon_types_df.style.highlight_max(axis=0),
        column_config={
           "Type": st.column_config.TextColumn( "Type", pinned = True ),
           "Attack": st.column_config.NumberColumn( "⚔ Attack", step=".01" ), #:crossed_swords:
           "Defend": st.column_config.NumberColumn( "🛡 Defend", step=".01" ), #:shield:
         },
        use_container_width=True,
-       hide_index=None
+       hide_index=None,
     )
+#st.dataframe(df.style.highlight_max(axis=0))
 
 def pg_home(): 
     # init()
@@ -166,27 +200,26 @@ if uploaded_file is not None:
 
 init()
 time.sleep(2)  # Wait 2 seconds
-#st.warning(st.session_state.is_session_pc)
 
 if str(st.session_state.is_session_pc) == 'True':
     pages = {
         "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
         "Local data": [
-            st.Page(pg_loc_0, title="Select file...", icon="📋"),
-            st.Page(pg_loc_1, title="Table", icon="📅"),
-            st.Page(pg_loc_2, title="Chart", icon="📊"),
-            st.Page(pg_loc_3, title="Pivot", icon="📅"),
+            st.Page(pg_loc_0, title="Select file...", icon=option_menu[1]),
+            st.Page(pg_loc_1, title="Table", icon=option_menu[2]),
+            st.Page(pg_loc_2, title="Chart", icon=option_menu[3]),
+            st.Page(pg_loc_3, title="Pivot", icon=option_menu[4]),
         ],
         "Server data": [
-            st.Page(pg_srv_1, title="Table", icon="📅"),
-            st.Page(pg_srv_2, title="Chart", icon="📊"),
-            st.Page(pg_srv_3, title="Pivot", icon="📅"),
+            st.Page(pg_srv_1, title="Table", icon=option_menu[2]),
+            st.Page(pg_srv_2, title="Chart", icon=option_menu[3]),
+            st.Page(pg_srv_3, title="Pivot", icon=option_menu[4]),
         ],
     }
 
 if str(st.session_state.is_session_pc) != 'True':
     pages = {
-        "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
+        "Home" : [ st.Page(pg_home, title="Home", icon=option_menu[0]) ],
         "Server data": [
             st.Page(pg_srv_1, title="Table", icon="📅"),
             st.Page(pg_srv_2, title="Chart", icon="📊"),

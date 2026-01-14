@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import calendar
 import sys
+import time
 from streamlit_javascript import st_javascript
 from user_agents import parse
 
@@ -144,8 +145,10 @@ if uploaded_file is not None:
   st.session_state['data_loc'] = df_loc
 
 init()
+time.sleep(2)  # Wait 2 seconds
+st.warning(st.session_state.is_session_pc)
 
-if is_session_pc == 'True':
+if str(st.session_state.is_session_pc) == 'True':
     pages = {
         "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
         "Local data": [
@@ -161,7 +164,7 @@ if is_session_pc == 'True':
         ],
     }
 
-if is_session_pc != 'True':
+if str(st.session_state.is_session_pc) != 'True':
     pages = {
         "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
         "Server data": [

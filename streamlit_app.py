@@ -12,20 +12,52 @@ from streamlit_dynamic_filters import DynamicFilters
 # pip install pyyaml ua-parser user-agents
 # pip install streamlit-dynamic-filters
 # https://levelup.gitconnected.com/dynamic-dataframe-filtering-in-streamlit-aeae5de0f92a
+#https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints
 
 global uploaded_file
 global is_session_pc
+global data_loc
+global data_srv
 uploaded_file = None
 is_session_pc = 'True'
 st.session_state.dataframe_filters = {}
+data_loc = {}
+data_srv = {}
+if 'uploaded_file' not in st.session_state:
+    st.session_state['uploaded_file'] = None
+if 'data_loc' not in st.session_state:
+    st.session_state['data_loc'] = None
+if 'data_srv' not in st.session_state:
+    st.session_state['data_srv'] = None    
+
+data_menu = {
+   "name":["Home",
+           "Select file...",
+           "Table",
+           "Chart",
+           "Pivot"],
+   "ico":[":material/home:",
+          "📋",
+          "📅",
+          "📊",
+          "📅"],
+   "desc":["d1","d2","d3","d4"],
+   "page":["p1","p2","p3","p4"]
+}
+
+data_page = {
+    "name":["Home","Local data","Server data"],
+    "pages":[{0},{1,2,3,4},{2,3,4}],
+    "src":[{},{},{}]
+}
 
 option_menu = {
-    0: ":material/home:",
-    1: "📋",
-    2: "📅",
-    3: "📊",
-    4: "📅"
-} #option_menu[x]
+    0: ":material/home_app_logo:",
+    1: ":material/upload:", #"📥", #"📋",
+    2: ":material/table:",#"📅",
+    3: ":material/bar_chart:", #"📊",
+    4: ":material/pivot_table_chart:", #"📅"
+} 
 
 column_config={
     "Name": st.column_config.TextColumn( "Name", pinned = True ),
@@ -70,15 +102,20 @@ column_config={
     )
 }
 
+# ===========================================================
+#   Initialisation
+# ===========================================================
 def init():
    ua_string = str(st_javascript("""window.navigator.userAgent;"""))
    user_agent = parse(ua_string)
    st.session_state.is_session_pc = user_agent.is_pc
-   #st.info(ua_string)
-   #st.info(st.session_state.is_session_pc)
    is_session_pc = str(st.session_state.is_session_pc)
-   #st.text("This is text\n[and more text](that's not a Markdown link).")
+   data_page.get("src")[1] = data_loc
+   data_page.get("src")[2] = data_srv
 
+# ===========================================================
+#   Fonctions
+# ===========================================================
 def read_csv(PATH: str) -> pd.DataFrame:
     try:
         df = pd.read_csv(PATH)
@@ -90,9 +127,13 @@ def read_csv(PATH: str) -> pd.DataFrame:
     #    df['Type'], categories=list(abbr.values()), ordered=True)
     return df
 
+def file_err():
+   st.markdown(":orange-badge[⚠️ No file loaded]")
+
 def build_main_table(raw_data) -> pd.DataFrame:
   df = raw_data
-  if st.session_state['data_loc'] is not None:
+#   if st.session_state['data_loc'] is not None:
+  if df is not None:
      df2 = df.copy()
      dynamic_filters = DynamicFilters(df=df2, filters=['Type', 'Skill', 'Team'])
 
@@ -106,7 +147,7 @@ def build_main_table(raw_data) -> pd.DataFrame:
            hide_index=True
         )
 
-  with st.expander("Raw data", expanded=False, width="stretch"):
+  with st.expander("Raw data", expanded=True, width="stretch"):
     st.dataframe(
         df,
         height = "content",
@@ -140,31 +181,58 @@ def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str)
     )
 #st.dataframe(df.style.highlight_max(axis=0))
 
+# ===========================================================
+#   Pages
+# ===========================================================
 def pg_home(): 
-    # init()
-    st.header("File data test", divider="blue")
+    abbr = dict(enumerate(calendar.month_abbr))
+    abbr.pop(0)
+    logo_src='data_files/Logo_01.jpg'
+    st.logo(logo_src, icon_image=logo_src)
+    st.title(body="File data test", text_alignment="center")
+    st.header(str(time.localtime().tm_mday) + "/" + abbr[time.localtime().tm_mon] + "/" + str(time.localtime().tm_year), divider=True)
     st.subheader("Choose local data (to upload) or server data (git)", divider=True)
 
 def pg_loc_0():
    uploaded_file = st.file_uploader("Choose a file")
+   st.session_state.uploaded_file = uploaded_file
    if uploaded_file is not None:
     df_loc = pd.read_csv(uploaded_file)
-    st.session_state['data_loc'] = df_loc
+    data_loc = pd.DataFrame(df_loc)
+    fileinfo={
+       "Name":uploaded_file.name,
+       "Type":uploaded_file.type,
+       "Size":uploaded_file.size
+    }
+    st.dataframe(
+        fileinfo,
+        height = "content",
+        width = "content",
+        selection_mode = "single-row",
+        hide_index=False,
+        )  
+    st.session_state['data_loc'] = data_loc
     st.toast("File loaded", icon="🎉")
     st.balloons()
 
 def pg_loc_1():
-   if st.session_state['data_loc'] is not None:
+   try:
       build_main_table(st.session_state['data_loc'])
-
+   except:
+      file_err()
+      
 def pg_loc_2():
-   if st.session_state['data_loc'] is not None:
+   try:
       build_main_chart(st.session_state['data_loc'])
+   except:
+      file_err()
 
 def pg_loc_3():
-   if st.session_state['data_loc'] is not None:
+   try:
       build_pivot_table(st.session_state['data_loc'],'Level','Type','Skill')
-         
+   except:
+      file_err()
+
 def pg_srv_1():
    if st.session_state['data_srv'] is not None:
       build_main_table(st.session_state['data_srv'])
@@ -177,56 +245,41 @@ def pg_srv_3():
    if st.session_state['data_srv'] is not None:
       build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill')
 
-# st.title("🎈 CSV file app")
-# st.write(
-#     "Palmon data test"
-# )
-#uploaded_file = st.file_uploader("Choose a file")
-
+# ===========================================================
+#   Lancement
+# ===========================================================
 PATH = 'data_files/PS_streamlit_US.csv'
 df_srv = read_csv(PATH)
+time.sleep(2)  # Wait 2 seconds
 
-if 'data_srv' not in st.session_state:
-   st.session_state['data_srv'] = {}
-
-if 'data_loc' not in st.session_state:
-   st.session_state['data_loc'] = {}
+init()
 
 if df_srv is not None:
+   data_srv = df_srv
    st.session_state['data_srv'] = df_srv
 
 if uploaded_file is not None:
   df_loc = pd.read_csv(uploaded_file)
   st.session_state['data_loc'] = df_loc
+  data_loc = df_loc
 
-init()
-time.sleep(2)  # Wait 2 seconds
-
-if str(st.session_state.is_session_pc) == 'True':
-    pages = {
-        "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
-        "Local data": [
-            st.Page(pg_loc_0, title="Select file...", icon=option_menu[1]),
-            st.Page(pg_loc_1, title="Table", icon=option_menu[2]),
-            st.Page(pg_loc_2, title="Chart", icon=option_menu[3]),
-            st.Page(pg_loc_3, title="Pivot", icon=option_menu[4]),
-        ],
-        "Server data": [
-            st.Page(pg_srv_1, title="Table", icon=option_menu[2]),
-            st.Page(pg_srv_2, title="Chart", icon=option_menu[3]),
-            st.Page(pg_srv_3, title="Pivot", icon=option_menu[4]),
-        ],
-    }
-
+#var_server=st.markdown(":violet-badge[:material/star: Favorite]")
+pages = {
+    "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
+    "Local data": [
+        st.Page(pg_loc_0, title="Select file...", icon=option_menu[1]),
+        st.Page(pg_loc_1, title="Table", icon=option_menu[2]),
+        st.Page(pg_loc_2, title="Chart", icon=option_menu[3]),
+        st.Page(pg_loc_3, title="Pivot", icon=option_menu[4]),
+    ],
+    "Server data": [
+        st.Page(pg_srv_1, title="Table", icon=option_menu[2]),
+        st.Page(pg_srv_2, title="Chart", icon=option_menu[3]),
+        st.Page(pg_srv_3, title="Pivot", icon=option_menu[4]),
+    ],
+}
 if str(st.session_state.is_session_pc) != 'True':
-    pages = {
-        "Home" : [ st.Page(pg_home, title="Home", icon=option_menu[0]) ],
-        "Server data": [
-            st.Page(pg_srv_1, title="Table", icon="📅"),
-            st.Page(pg_srv_2, title="Chart", icon="📊"),
-            st.Page(pg_srv_3, title="Pivot", icon="📅"),
-        ],
-    }    
-
+   pages.pop("Local data")
+ 
 pg = st.navigation(pages)
 pg.run()

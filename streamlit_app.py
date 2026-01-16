@@ -267,9 +267,6 @@ def pg_srv_4() -> st.Page:
 df_srv = read_csv(PATH)
 time.sleep(2)  # Wait 2 seconds
 
-if st.button("Switch to Test Page"):
-    st.switch_page("pages/test.py", query_params={"utm_source": "streamlit_app.py"})
-
 init()
 
 if df_srv is not None:

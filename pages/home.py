@@ -14,6 +14,3 @@ if with_logo == True:
 st.title(body="File data test", text_alignment="center")
 st.header(str(time.localtime().tm_mday) + "/" + abbr[time.localtime().tm_mon] + "/" + str(time.localtime().tm_year), divider=True)
 st.subheader("Choose local data (to upload) or server data (git)", divider=True)
-
-if st.button("Switch to Test Page"):
-    st.switch_page("/pages/test.py", query_params={"utm_source": "home.py"})

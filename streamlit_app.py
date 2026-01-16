@@ -20,6 +20,8 @@ global data_loc
 global data_srv
 uploaded_file = None
 is_session_pc = 'True'
+with_logo = False
+# with_logo = True
 st.session_state.dataframe_filters = {}
 data_loc = {}
 data_srv = {}
@@ -189,10 +191,11 @@ def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str)
 def pg_home(): 
     abbr = dict(enumerate(calendar.month_abbr))
     abbr.pop(0)
-    logo_src="data_files/logo_01.jpg"
-    #logo_ico=st.image(logo_src, width=32)
-    st.logo(logo_src,size="large", link=None, icon_image=None)
-    st.image(logo_src) #, caption="data_files/Logo_01.jpg")
+    if with_logo == True:
+       logo_src="data_files/logo_01.jpg"
+       #logo_ico=st.image(logo_src, width=32)
+       st.logo(logo_src,size="large", link=None, icon_image=None)
+       st.image(logo_src) #, caption="data_files/Logo_01.jpg")
     st.title(body="File data test", text_alignment="center")
     st.header(str(time.localtime().tm_mday) + "/" + abbr[time.localtime().tm_mon] + "/" + str(time.localtime().tm_year), divider=True)
     st.subheader("Choose local data (to upload) or server data (git)", divider=True)

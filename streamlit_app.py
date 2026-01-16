@@ -29,6 +29,7 @@ if 'data_loc' not in st.session_state:
     st.session_state['data_loc'] = None
 if 'data_srv' not in st.session_state:
     st.session_state['data_srv'] = None    
+PATH = 'data_files/PS_streamlit_US.csv'
 
 data_menu = {
    "name":["Home",
@@ -57,6 +58,7 @@ option_menu = {
     2: ":material/table:",#"📅",
     3: ":material/bar_chart:", #"📊",
     4: ":material/pivot_table_chart:", #"📅"
+    5: ":material/download:"
 } 
 
 column_config={
@@ -247,10 +249,18 @@ def pg_srv_3():
    if st.session_state['data_srv'] is not None:
       build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill')
 
+def pg_srv_4() -> st.Page:
+   st.download_button(
+    label="Download CSV",
+    data=df_srv.to_csv().encode("utf-8"),
+    file_name="data.csv",
+    mime="text/csv",
+    icon=":material/download:",
+)
+
 # ===========================================================
 #   Lancement
 # ===========================================================
-PATH = 'data_files/PS_streamlit_US.csv'
 df_srv = read_csv(PATH)
 time.sleep(2)  # Wait 2 seconds
 
@@ -278,6 +288,7 @@ pages = {
         st.Page(pg_srv_1, title="Table", icon=option_menu[2]),
         st.Page(pg_srv_2, title="Chart", icon=option_menu[3]),
         st.Page(pg_srv_3, title="Pivot", icon=option_menu[4]),
+        st.Page(pg_srv_4, title="Download Data", icon=option_menu[5])
     ],
 }
 if str(st.session_state.is_session_pc) != 'True':

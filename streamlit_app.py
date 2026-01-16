@@ -280,7 +280,8 @@ if uploaded_file is not None:
 
 #var_server=st.markdown(":violet-badge[:material/star: Favorite]")
 pages = {
-    "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
+    "Home" : [ st.Page("pages/home.py", title="Home", icon=":material/home:") ],
+    # "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
     "Local data": [
         st.Page(pg_loc_0, title="Select file...", icon=option_menu[1]),
         st.Page(pg_loc_1, title="Table", icon=option_menu[2]),
@@ -291,7 +292,7 @@ pages = {
         st.Page(pg_srv_1, title="Table", icon=option_menu[2]),
         st.Page(pg_srv_2, title="Chart", icon=option_menu[3]),
         st.Page(pg_srv_3, title="Pivot", icon=option_menu[4]),
-        st.Page(pg_srv_4, title="Download Data", icon=option_menu[5])
+        st.Page(pg_srv_4, title="Download Data", icon=option_menu[5]),
     ],
 }
 if str(st.session_state.is_session_pc) != 'True':

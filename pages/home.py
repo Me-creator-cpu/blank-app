@@ -3,6 +3,8 @@ import calendar
 import time
 
 with_logo = False
+if st.session_state.is_session_pc==False:
+    with_logo = True
 
 abbr = dict(enumerate(calendar.month_abbr))
 abbr.pop(0)
@@ -14,3 +16,7 @@ if with_logo == True:
 st.title(body="File data test", text_alignment="center")
 st.header(str(time.localtime().tm_mday) + "/" + abbr[time.localtime().tm_mon] + "/" + str(time.localtime().tm_year), divider=True)
 st.subheader("Choose local data (to upload) or server data (git)", divider=True)
+
+# diaplayLogo = st.query_params.get("diaplayLogo")
+# diaplayLogo
+# st.write(st.session_state.is_session_pc)

@@ -261,6 +261,9 @@ def pg_srv_4() -> st.Page:
     icon=":material/download:",
 )
 
+def pg_tests():
+   st.page_link("pages/home.py", query_params={"diaplayLogo": str(st.session_state.is_session_pc) != 'True'})
+
 # ===========================================================
 #   Lancement
 # ===========================================================
@@ -293,6 +296,9 @@ pages = {
         st.Page(pg_srv_2, title="Chart", icon=option_menu[3]),
         st.Page(pg_srv_3, title="Pivot", icon=option_menu[4]),
         st.Page(pg_srv_4, title="Download Data", icon=option_menu[5]),
+    ],
+    "Tests":[
+       st.Page(pg_tests, title="Test01", icon=option_menu[2]),
     ],
 }
 if str(st.session_state.is_session_pc) != 'True':

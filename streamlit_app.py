@@ -18,8 +18,11 @@ global uploaded_file
 global is_session_pc
 global data_loc
 global data_srv
+global logo_src
 uploaded_file = None
 is_session_pc = 'True'
+logo_src="data_files/logo_01.jpg"
+st.session_state.logo_src = logo_src
 with_logo = False
 # with_logo = True
 st.session_state.dataframe_filters = {}
@@ -192,7 +195,6 @@ def pg_home():
     abbr = dict(enumerate(calendar.month_abbr))
     abbr.pop(0)
     if with_logo == True:
-       logo_src="data_files/logo_01.jpg"
        #logo_ico=st.image(logo_src, width=32)
        st.logo(logo_src,size="large", link=None, icon_image=None)
        st.image(logo_src) #, caption="data_files/Logo_01.jpg")
@@ -253,6 +255,10 @@ def pg_srv_3():
       build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill')
 
 def pg_srv_4() -> st.Page:
+   st.image(st.session_state.logo_src)
+   st.title(body="Download file data test", text_alignment="center")
+   st.subheader("Choose local data (csv)", divider=False)
+
    st.download_button(
     label="Download CSV",
     data=df_srv.to_csv().encode("utf-8"),

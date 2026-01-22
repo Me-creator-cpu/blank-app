@@ -146,7 +146,7 @@ def file_err():
 def build_any_table(raw_data):
   df = raw_data
   if df is not None:
-     with st.expander("Filtered data", expanded=True, width="stretch"):
+     with st.expander("Raw data", expanded=True, width="stretch"):
         st.dataframe(
            df,
            use_container_width=True,

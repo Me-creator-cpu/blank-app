@@ -176,7 +176,7 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
         df = check_rows(raw_data.copy(),'Lvl from', level)
         st.write(df)
      except:
-        st.write(df)
+        st.write('No filter applyed',df)
   
   return df
 

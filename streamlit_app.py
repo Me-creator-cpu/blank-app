@@ -273,6 +273,16 @@ def pg_srv_4() -> st.Page:
     icon=":material/download:",
 )
 
+def pg_srv_5():
+   st.session_state['data_comp'] = read_csv(PATH_COMP)
+   if st.session_state['data_comp'] is not None:
+      build_main_table(st.session_state['data_comp'])   
+
+def pg_srv_6():
+   st.session_state['data_exp'] = read_csv(PATH_EXP)
+   if st.session_state['data_exp'] is not None:
+      build_main_table(st.session_state['data_exp'])  
+
 def pg_tests():
    st.page_link("pages/home.py", query_params={"diaplayLogo": str(st.session_state.is_session_pc) != 'True'})
 
@@ -307,6 +317,8 @@ pages = {
         st.Page(pg_srv_1, title="Table", icon=option_menu[2]),
         st.Page(pg_srv_2, title="Chart", icon=option_menu[3]),
         st.Page(pg_srv_3, title="Pivot", icon=option_menu[4]),
+        st.Page(pg_srv_5, title="Competencies", icon=option_menu[2]),
+        st.Page(pg_srv_6, title="EXP", icon=option_menu[2]),
         st.Page(pg_srv_4, title="Download Data", icon=option_menu[5]),
     ],
     "Tests":[

@@ -160,20 +160,21 @@ def config_df(raw_data):
 def build_any_table(raw_data,title_expander) -> pd.DataFrame:
   df = raw_data.copy()
   level = 0
-  st.write(f"'Level Hall:' {level_bourg}")
+  st.write(f"Level Hall: {level_bourg}")
   if df is not None:
      config_df(raw_data)
      range_cols = st.columns(3)
-     range_cols[0].slider("Level evolution", float(level_min), float(level_max),
-                                             [float(level_min), float(level_max)])
-     with st.expander(title_expander, expanded=True, width="stretch"):
-        st.dataframe(
-           df,
-           use_container_width=True,
-           hide_index=None,
-           )
+     range_cols[0].slider("Level evolution", int(level_min), int(level_max),
+                                             [int(level_min), int(level_max)])
+   #   with st.expander(title_expander, expanded=True, width="stretch"):
+   #      st.dataframe(
+   #         df,
+   #         use_container_width=True,
+   #         hide_index=None,
+   #         )
      if level:
-        df = check_rows("Level", level)
+        df = check_rows(df,"Level", level)
+        st.write(df)
   
   return df
 

@@ -143,10 +143,10 @@ def read_csv(PATH: str) -> pd.DataFrame:
 def file_err():
    st.markdown(":orange-badge[⚠️ No file loaded]")
 
-def build_any_table(raw_data):
+def build_any_table(raw_data,title_expander):
   df = raw_data
   if df is not None:
-     with st.expander("Raw data", expanded=True, width="stretch"):
+     with st.expander(title_expander, expanded=True, width="stretch"):
         st.dataframe(
            df,
            use_container_width=True,
@@ -273,12 +273,12 @@ def pg_srv_3():
 def pg_srv_4():
    st.session_state['data_comp'] = read_csv(PATH_COMP)
    if st.session_state['data_comp'] is not None:
-      build_any_table(st.session_state['data_comp'])   
+      build_any_table(st.session_state['data_comp'],'COMP costs')   
 
 def pg_srv_5():
    st.session_state['data_exp'] = read_csv(PATH_EXP)
    if st.session_state['data_exp'] is not None:
-      build_any_table(st.session_state['data_exp'])  
+      build_any_table(st.session_state['data_exp'],'EXP costs')  
 
 def pg_download() -> st.Page:
    st.image(st.session_state.logo_src)

@@ -143,6 +143,16 @@ def read_csv(PATH: str) -> pd.DataFrame:
 def file_err():
    st.markdown(":orange-badge[⚠️ No file loaded]")
 
+def build_any_table(raw_data) -> pd.DataFrame:
+  df = raw_data
+  if df is not None:
+     with st.expander("Filtered data", expanded=True, width="stretch"):
+        df.display_df(
+           height = "content",
+           width = "content",
+           hide_index=True
+        )
+
 def build_main_table(raw_data) -> pd.DataFrame:
   df = raw_data
 #   if st.session_state['data_loc'] is not None:
@@ -276,12 +286,12 @@ def pg_srv_4() -> st.Page:
 def pg_srv_5():
    st.session_state['data_comp'] = read_csv(PATH_COMP)
    if st.session_state['data_comp'] is not None:
-      build_main_table(st.session_state['data_comp'])   
+      build_any_table(st.session_state['data_comp'])   
 
 def pg_srv_6():
    st.session_state['data_exp'] = read_csv(PATH_EXP)
    if st.session_state['data_exp'] is not None:
-      build_main_table(st.session_state['data_exp'])  
+      build_any_table(st.session_state['data_exp'])  
 
 def pg_tests():
    st.page_link("pages/home.py", query_params={"diaplayLogo": str(st.session_state.is_session_pc) != 'True'})

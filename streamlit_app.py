@@ -42,6 +42,10 @@ PATH = 'data_files/PS_streamlit_US.csv'
 PATH_COMP = 'data_files/PS_COMP.csv'
 PATH_EXP = 'data_files/PS_EXP.csv'
 
+level_bourg = 25
+level_min = 0
+level_max = float(level_bourg) * 10
+
 data_menu = {
    "name":["Home",
            "Select file...",
@@ -143,15 +147,32 @@ def read_csv(PATH: str) -> pd.DataFrame:
 def file_err():
    st.markdown(":orange-badge[⚠️ No file loaded]")
 
-def build_any_table(raw_data,title_expander):
+def check_rows(res, column, options):
+    return res.loc[res[column].isin(options)]
+
+def config_df(raw_data):
+   df = raw_data.copy()
+   level_values = df['Lvl from'].unique()
+   cols = st.columns(4)
+   level = cols[0].multiselect("Level", level_values)
+   return df,level,level_values
+
+def build_any_table(raw_data,title_expander) -> pd.DataFrame:
   df = raw_data
+  level = 0
   if df is not None:
+     config_df(raw_data)
+     range_cols = st.columns(3)
+     range_cols[0].slider("Level evolution", float(level_min), float(level_max),
+                                             [float(level_min), float(level_max)])
      with st.expander(title_expander, expanded=True, width="stretch"):
         st.dataframe(
            df,
            use_container_width=True,
            hide_index=None,
            )
+     if level:
+        df = check_rows("Level", level)
 
 def build_main_table(raw_data) -> pd.DataFrame:
   df = raw_data

@@ -143,7 +143,7 @@ def read_csv(PATH: str) -> pd.DataFrame:
 def file_err():
    st.markdown(":orange-badge[⚠️ No file loaded]")
 
-def build_any_table(raw_data) -> pd.DataFrame:
+def build_any_table(raw_data):
   df = raw_data
   if df is not None:
      with st.expander("Filtered data", expanded=True, width="stretch"):

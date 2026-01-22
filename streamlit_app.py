@@ -172,9 +172,8 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
    #         use_container_width=True,
    #         hide_index=None,
    #         )
-     if level:
-        df = check_rows(df,"Level", level)
-        st.write(df)
+     df = check_rows(df,"Level", level)
+     st.write(df)
   
   return df
 

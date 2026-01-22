@@ -147,11 +147,11 @@ def build_any_table(raw_data):
   df = raw_data
   if df is not None:
      with st.expander("Filtered data", expanded=True, width="stretch"):
-        df.display_df(
-           height = "content",
-           width = "content",
-           hide_index=True
-        )
+        st.dataframe(
+           df,
+           use_container_width=True,
+           hide_index=None,
+           )
 
 def build_main_table(raw_data) -> pd.DataFrame:
   df = raw_data

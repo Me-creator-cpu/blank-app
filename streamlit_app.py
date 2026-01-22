@@ -18,6 +18,8 @@ global uploaded_file
 global is_session_pc
 global data_loc
 global data_srv
+global data_comp
+global data_exp
 global logo_src
 uploaded_file = None
 is_session_pc = 'True'
@@ -28,6 +30,8 @@ with_logo = False
 st.session_state.dataframe_filters = {}
 data_loc = {}
 data_srv = {}
+data_comp = {}
+data_exp = {}
 if 'uploaded_file' not in st.session_state:
     st.session_state['uploaded_file'] = None
 if 'data_loc' not in st.session_state:
@@ -35,6 +39,8 @@ if 'data_loc' not in st.session_state:
 if 'data_srv' not in st.session_state:
     st.session_state['data_srv'] = None    
 PATH = 'data_files/PS_streamlit_US.csv'
+PATH_COMP = 'data_files/PS_COMP.csv'
+PATH_EXP = 'data_files/PS_EXP.csv'
 
 data_menu = {
    "name":["Home",

@@ -158,8 +158,10 @@ def config_df(raw_data):
    return df,level,level_values
 
 def build_any_table(raw_data,title_expander) -> pd.DataFrame:
-  df = raw_data
+  df = raw_data.copy()
   level = 0
+  sCaption = 'Level Hall:' & level_bourg
+  st.caption()
   if df is not None:
      config_df(raw_data)
      range_cols = st.columns(3)
@@ -173,6 +175,8 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
            )
      if level:
         df = check_rows("Level", level)
+  
+  return df
 
 def build_main_table(raw_data) -> pd.DataFrame:
   df = raw_data

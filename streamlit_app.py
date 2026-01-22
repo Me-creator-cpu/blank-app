@@ -172,8 +172,11 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
    #         use_container_width=True,
    #         hide_index=None,
    #         )
-     df = check_rows(df,'Lvl from', level)
-     st.write(df)
+     try:
+        df = check_rows(raw_data.copy(),'Lvl from', level)
+        st.write(df)
+     except:
+        st.write(df)
   
   return df
 

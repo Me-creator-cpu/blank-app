@@ -173,7 +173,8 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
    #         hide_index=None,
    #         )
      try:
-        df = check_rows(raw_data.copy(),'Lvl from', level)
+        df.loc[df['Lvl from'].isin(20)]
+      #   df = check_rows(raw_data.copy(),'Lvl from', level)
         st.write(df)
      except:
         st.write('No filter applyed',df)

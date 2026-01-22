@@ -160,7 +160,7 @@ def config_df(raw_data):
 def build_any_table(raw_data,title_expander) -> pd.DataFrame:
   df = raw_data.copy()
   level = 0
-  sCaption = 'Level Hall:' & level_bourg
+  sCaption = 'Level Hall:' + level_bourg
   st.caption()
   if df is not None:
      config_df(raw_data)

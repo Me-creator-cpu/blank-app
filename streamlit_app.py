@@ -164,7 +164,7 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
   if df is not None:
      config_df(raw_data)
      range_cols = st.columns(3)
-     range_cols[0].slider("Level evolution", int(level_min), int(level_max),
+     range_level_min, range_level_max = range_cols[0].slider("Level evolution", int(level_min), int(level_max),
                                              [int(level_min), int(level_max)])
    #   with st.expander(title_expander, expanded=True, width="stretch"):
    #      st.dataframe(
@@ -173,9 +173,10 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
    #         hide_index=None,
    #         )
      try:
-        df.loc[df['Lvl from'].isin(20)]
+      #   df.loc[df['Lvl from'].isin(20)]
       #   df = check_rows(raw_data.copy(),'Lvl from', level)
-        st.write(df)
+      df = df.loc[(df.['Lvl from'] > range_level_min) & (df.['Lvl from'] < range_level_max)]
+      st.write(df)
      except:
         st.write('No filter applyed',df)
   

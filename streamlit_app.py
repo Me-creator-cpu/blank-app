@@ -12,7 +12,9 @@ from streamlit_dynamic_filters import DynamicFilters
 # pip install pyyaml ua-parser user-agents
 # pip install streamlit-dynamic-filters
 # https://levelup.gitconnected.com/dynamic-dataframe-filtering-in-streamlit-aeae5de0f92a
-#https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints
+# https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints
+
+# App sur: https://fictional-zebra-5gjww6p9wqjwf466r.github.dev/
 
 global uploaded_file
 global is_session_pc
@@ -381,6 +383,7 @@ def pg_home():
     st.title(body="File data test", text_alignment="center")
     st.header(str(time.localtime().tm_mday) + "/" + abbr[time.localtime().tm_mon] + "/" + str(time.localtime().tm_year), divider=True)
     st.subheader("Choose local data (to upload) or server data (git)", divider=True)
+    st.caption("Server file used:", PATH)
 
 def pg_loc_0():
    uploaded_file = st.file_uploader("Choose a file")

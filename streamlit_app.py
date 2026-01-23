@@ -450,10 +450,13 @@ def pg_srv_5():
 
 def pg_srv_6():
    col_border=False
-   if with_logo==True:
-      st.image("data_files/logo_02.jpg",width="stretch")
+   row0 = st.columns([3, 1], border=col_border, width="stretch")   
    row1 = st.columns(2,border=col_border, width="stretch")
-   row2 = st.columns(2,border=col_border, width="stretch")
+   row2 = st.columns(2,border=col_border, width="stretch")   
+   with_logo=True
+   if with_logo==True:
+      with row0[1]:
+         st.image("data_files/logo_02.jpg",width="stretch")
    if st.session_state['data_srv'] is not None:
       with st.spinner("Wait for it...", show_time=True):
          with row1[0]:

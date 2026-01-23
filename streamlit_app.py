@@ -441,7 +441,7 @@ def pg_srv_5():
 
 def pg_download() -> st.Page:
    if with_logo==True:
-      st.image("data_files/logo_05.jpg")
+      st.image("data_files/logo_05.jpg",width="stretch")
    st.title(body="Download file data test", text_alignment="center")
    st.subheader("Choose local data (csv)", divider=False)
 

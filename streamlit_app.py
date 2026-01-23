@@ -40,7 +40,7 @@ if 'data_loc' not in st.session_state:
     st.session_state['data_loc'] = None
 if 'data_srv' not in st.session_state:
     st.session_state['data_srv'] = None    
-PATH = 'data_files/PS_streamlit_US_v1.csv'
+PATH = 'data_files/PS_streamlit_US_v0.csv'
 PATH_COMP = 'data_files/PS_COMP.csv'
 PATH_EXP = 'data_files/PS_EXP.csv'
 
@@ -383,7 +383,8 @@ def pg_home():
     st.title(body="File data test", text_alignment="center")
     st.header(str(time.localtime().tm_mday) + "/" + abbr[time.localtime().tm_mon] + "/" + str(time.localtime().tm_year), divider=True)
     st.subheader("Choose local data (to upload) or server data (git)", divider=True)
-    st.caption("Server file used:", PATH)
+    st.subheader("blabla", divider=True)
+    st.caption(f"Server file used: {PATH}")
 
 def pg_loc_0():
    uploaded_file = st.file_uploader("Choose a file")

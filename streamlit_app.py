@@ -427,7 +427,7 @@ def pg_srv_3():
 
 def pg_srv_4():
    if with_logo==True:
-      st.image("data_files/logo_03.jpg")
+      st.image("data_files/logo_03.jpg",use_container_width=True)
    st.session_state['data_comp'] = read_csv(PATH_COMP)
    if st.session_state['data_comp'] is not None:
       build_comp_table(st.session_state['data_comp'],'COMP costs')   

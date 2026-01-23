@@ -426,17 +426,22 @@ def pg_srv_3():
       build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill')
 
 def pg_srv_4():
+   if with_logo==True:
+      st.image("data_files/logo_03.jpg")
    st.session_state['data_comp'] = read_csv(PATH_COMP)
    if st.session_state['data_comp'] is not None:
       build_comp_table(st.session_state['data_comp'],'COMP costs')   
 
 def pg_srv_5():
+   if with_logo==True:
+      st.image("data_files/logo_02.jpg")
    st.session_state['data_exp'] = read_csv(PATH_EXP)
    if st.session_state['data_exp'] is not None:
       build_exp_table(st.session_state['data_exp'],'EXP costs')  
 
 def pg_download() -> st.Page:
-   st.image(st.session_state.logo_src)
+   if with_logo==True:
+      st.image("data_files/logo_05.jpg")
    st.title(body="Download file data test", text_alignment="center")
    st.subheader("Choose local data (csv)", divider=False)
 

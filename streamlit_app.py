@@ -448,11 +448,11 @@ def pg_srv_1():
 
 def pg_srv_2():
    if st.session_state['data_srv'] is not None:
-      build_main_chart_cont(st.session_state['data_srv'])
+      build_main_chart(st.session_state['data_srv'])
    
 def pg_srv_3():
    if st.session_state['data_srv'] is not None:
-      build_pivot_table_cont(st.session_state['data_srv'],'Level','Type','Skill')
+      build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill')
 
 def pg_srv_4():
    if with_logo==True:
@@ -474,8 +474,8 @@ def pg_srv_6():
    row1 = st.columns(2)
    row2 = st.columns(2)
    if st.session_state['data_srv'] is not None:
-      row1[0] = build_pivot_table_cont(st.session_state['data_srv'])
-      row1[1] = build_main_chart_cont(st.session_state['data_srv'])
+      row1[0].build_pivot_table_cont(st.session_state['data_srv'])
+      row1[1].build_main_chart_cont(st.session_state['data_srv'])
 
 def pg_download() -> st.Page:
    if with_logo==True:

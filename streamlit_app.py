@@ -46,6 +46,11 @@ level_bourg = 25
 level_min = 0
 level_max = float(level_bourg) * 10
 
+max_mut_Energy=400000
+max_mut_Crystals=300
+max_mut_Pieces=975
+
+
 data_menu = {
    "name":["Home",
            "Select file...",
@@ -353,40 +358,11 @@ def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str)
           "Type": st.column_config.TextColumn( "Type", pinned = True ),
           "Attack": st.column_config.NumberColumn( "⚔ Attack", step=".01" ), #:crossed_swords:
           "Defend": st.column_config.NumberColumn( "🛡 Defend", step=".01" ), #:shield:
+          "Level": st.column_config.NumberColumn( "Level", step=".01" ),
         },
        width="stretch",
        hide_index=None,
     )
-#st.dataframe(df.style.highlight_max(axis=0))
-
-def build_main_chart_cont(raw_data):
-  cont=st.container(width="stretch")
-  with cont:
-   with st.expander("Chart", expanded=True, width="stretch"):
-      st.bar_chart(
-         raw_data,
-         x="Type",
-         y="Level",
-         horizontal=True
-      )
-  return cont
-
-def build_pivot_table_cont(raw_data,val_value: str, val_index: str, val_columns: str):
-  cont=st.container(width="stretch")
-  with cont:  
-   palmon_types_df = raw_data.pivot_table(values=val_value, index=val_index, columns=val_columns)
-   with st.expander("Pivot table", expanded=True, width="stretch"):
-      st.dataframe(
-         palmon_types_df.style.highlight_max(axis=0),
-         column_config={
-            "Type": st.column_config.TextColumn( "Type", pinned = True ),
-            "Attack": st.column_config.NumberColumn( "⚔ Attack", step=".01" ), #:crossed_swords:
-            "Defend": st.column_config.NumberColumn( "🛡 Defend", step=".01" ), #:shield:
-         },
-         width="stretch",
-         hide_index=None,
-      )
-  return cont
 
 # ===========================================================
 #   Pages
@@ -469,13 +445,21 @@ def pg_srv_5():
       build_exp_table(st.session_state['data_exp'],'EXP costs')
 
 def pg_srv_6():
+   col_border=False
    if with_logo==True:
       st.image("data_files/logo_02.jpg",width="stretch")
-   row1 = st.columns(2)
-   row2 = st.columns(2)
+   row1 = st.columns(2,border=col_border)
+   row2 = st.columns(2,border=col_border)
    if st.session_state['data_srv'] is not None:
-      row1[0].write( build_pivot_table_cont(st.session_state['data_srv'],'Level','Type','Skill') )
-      row1[1].write( build_main_chart_cont(st.session_state['data_srv']) )
+      with st.spinner("Wait for it...", show_time=True):
+         with row1[0]:
+            build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill')
+         with row1[1]:
+            build_main_chart(st.session_state['data_srv'])
+         with row2[0]:
+            build_pivot_table(st.session_state['data_srv'],'Level','Skill', None)
+         with row2[1]:
+            build_pivot_table(st.session_state['data_srv'],'Level','Type', None)
 
 def pg_download() -> st.Page:
    if with_logo==True:

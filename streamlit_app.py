@@ -216,9 +216,10 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
 def build_exp_table(raw_data,title_expander) -> pd.DataFrame:
   df = raw_data.copy()
   level = 0
+  st.subheader("Level evolution", divider=False)
   st.write(f":material/home: Level Hall: {level_bourg}")
   if df is not None:
-     range_level_min, range_level_max = st.slider("Level evolution", int(level_min), int(level_max), [int(level_min), int(level_max)])
+     range_level_min, range_level_max = st.slider("Choose range:", int(level_min), int(level_max), [int(level_min), int(level_max)])
      try:
       df = df.loc[(df['Lvl from'] >= range_level_min) & (df['Lvl from'] <= range_level_max)]
       with st.expander(title_expander, expanded=True, width="stretch"):
@@ -264,8 +265,9 @@ def build_comp_table(raw_data,title_expander) -> pd.DataFrame:
   level = 0
   comp_level_min = 0
   comp_level_max = 30
+  st.subheader("Competency evolution", divider=False)
   if df is not None:
-     range_level_min, range_level_max = st.slider("Competency evolution", int(comp_level_min), int(comp_level_max), [int(comp_level_min), int(comp_level_max)])
+     range_level_min, range_level_max = st.slider("Choose range:", int(comp_level_min), int(comp_level_max), [int(comp_level_min), int(comp_level_max)])
      try:
       df = df.loc[(df['Lvl from'] >= range_level_min) & (df['Lvl from'] <= range_level_max)]
       with st.expander(title_expander, expanded=True, width="stretch"):
@@ -476,6 +478,8 @@ def pg_tests():
 # ===========================================================
 df_srv = read_csv(PATH)
 time.sleep(2)  # Wait 2 seconds
+data_comp = read_csv(PATH_COMP)
+data_exp = read_csv(PATH_EXP)
 
 init()
 

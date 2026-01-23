@@ -270,7 +270,7 @@ def build_comp_table(raw_data,title_expander) -> pd.DataFrame:
      range_level_min, range_level_max = st.slider("Choose range:", int(comp_level_min), int(comp_level_max), [int(comp_level_min), int(comp_level_max)])
      try:
       df = df.loc[(df['Lvl from'] >= range_level_min) & (df['Lvl from'] <= range_level_max)]
-      with st.expander(title_expander, expanded=True, width="stretch"):
+      with st.expander(title_expander, expanded=False, width="stretch"):
          st.data_editor(
             df,
             column_config={

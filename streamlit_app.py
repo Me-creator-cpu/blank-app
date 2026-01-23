@@ -162,7 +162,7 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
   level = 0
   st.write(f":material/home: Level Hall: {level_bourg}")
   if df is not None:
-     config_df(raw_data)
+   #   config_df(raw_data)
    #   range_cols = st.columns(3)
    #   range_level_min, range_level_max = range_cols[0].slider("Level evolution", int(level_min), int(level_max),
    #                                           [int(level_min), int(level_max)])

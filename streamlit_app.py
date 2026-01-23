@@ -222,7 +222,7 @@ def build_exp_table(raw_data,title_expander) -> pd.DataFrame:
      range_level_min, range_level_max = st.slider("Choose range:", int(level_min), int(level_max), [int(level_min), int(level_max)])
      try:
       df = df.loc[(df['Lvl from'] >= range_level_min) & (df['Lvl from'] <= range_level_max)]
-      with st.expander(title_expander, expanded=True, width="stretch"):
+      with st.expander(title_expander, expanded=False, width="stretch"):
          st.data_editor(
             df,
             column_config={

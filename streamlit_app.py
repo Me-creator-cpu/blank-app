@@ -175,6 +175,7 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
      range_level_min, range_level_max = st.slider("Level evolution", int(level_min), int(level_max), [int(level_min), int(level_max)])
      try:
       df = df.loc[(df['Lvl from'] >= range_level_min) & (df['Lvl from'] <= range_level_max)]
+      st.write(df)
       total_col = f"Total cost from {range_level_min} to {range_level_max}"
       total_cost = df.Cost.sum()
       data_df = pd.DataFrame(

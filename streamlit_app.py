@@ -175,7 +175,6 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
      range_level_min, range_level_max = st.slider("Level evolution", int(level_min), int(level_max), [int(level_min), int(level_max)])
      try:
       df = df.loc[(df['Lvl from'] >= range_level_min) & (df['Lvl from'] <= range_level_max)]
-      # st.write(df)
       st.data_editor(
          df,
          column_config={
@@ -209,11 +208,102 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
          },
          hide_index=True,
       )
-      # st.write(df)
-      # st.write(f"Total cost from {range_level_min} to {range_level_max}: {total_cost}")
      except:
         st.write('No filter applyed',df)
   
+  return df
+
+def build_exp_table(raw_data,title_expander) -> pd.DataFrame:
+  df = raw_data.copy()
+  level = 0
+  st.write(f":material/home: Level Hall: {level_bourg}")
+  if df is not None:
+     range_level_min, range_level_max = st.slider("Level evolution", int(level_min), int(level_max), [int(level_min), int(level_max)])
+     try:
+      df = df.loc[(df['Lvl from'] >= range_level_min) & (df['Lvl from'] <= range_level_max)]
+      with st.expander(title_expander, expanded=True, width="stretch"):
+         st.data_editor(
+            df,
+            column_config={
+               "Cost": st.column_config.NumberColumn(
+                     "Costs",
+                     min_value=0,
+                     max_value=10000000000,
+                     step=1,
+                     format="compact",
+               )
+            },
+            hide_index=True,
+         )
+      total_col = f"Total cost from {range_level_min} to {range_level_max}"
+      total_cost = df.Cost.sum()
+      data_df = pd.DataFrame(
+         {
+            "cost": [total_cost],
+         }
+      )
+      st.data_editor(
+         data_df,
+         column_config={
+            "cost": st.column_config.NumberColumn(
+                  total_col,
+                  min_value=0,
+                  max_value=10000000000,
+                  step=1,
+                  format="compact",
+            )
+         },
+         hide_index=True,
+      )
+     except:
+        st.write('No filter applyed',df)
+  return df
+
+def build_comp_table(raw_data,title_expander) -> pd.DataFrame:
+  df = raw_data.copy()
+  level = 0
+  comp_level_min = 0
+  comp_level_max = 30
+  if df is not None:
+     range_level_min, range_level_max = st.slider("Competency evolution", int(comp_level_min), int(comp_level_max), [int(comp_level_min), int(comp_level_max)])
+     try:
+      df = df.loc[(df['Lvl from'] >= range_level_min) & (df['Lvl from'] <= range_level_max)]
+      with st.expander(title_expander, expanded=True, width="stretch"):
+         st.data_editor(
+            df,
+            column_config={
+               "Cost": st.column_config.NumberColumn(
+                     "Costs",
+                     min_value=0,
+                     max_value=10000000,
+                     step=1,
+                     format="compact",
+               )
+            },
+            hide_index=True,
+         )
+      total_col = f"Total cost from {range_level_min} to {range_level_max}"
+      total_cost = df.Cost.sum()
+      data_df = pd.DataFrame(
+         {
+            "cost": [total_cost],
+         }
+      )
+      st.data_editor(
+         data_df,
+         column_config={
+            "cost": st.column_config.NumberColumn(
+                  total_col,
+                  min_value=0,
+                  max_value=10000000000,
+                  step=1,
+                  format="compact",
+            )
+         },
+         hide_index=True,
+      )
+     except:
+        st.write('No filter applyed',df)
   return df
 
 def build_main_table(raw_data) -> pd.DataFrame:
@@ -336,25 +426,47 @@ def pg_srv_3():
 def pg_srv_4():
    st.session_state['data_comp'] = read_csv(PATH_COMP)
    if st.session_state['data_comp'] is not None:
-      build_any_table(st.session_state['data_comp'],'COMP costs')   
+      build_comp_table(st.session_state['data_comp'],'COMP costs')   
 
 def pg_srv_5():
    st.session_state['data_exp'] = read_csv(PATH_EXP)
    if st.session_state['data_exp'] is not None:
-      build_any_table(st.session_state['data_exp'],'EXP costs')  
+      build_exp_table(st.session_state['data_exp'],'EXP costs')  
 
 def pg_download() -> st.Page:
    st.image(st.session_state.logo_src)
    st.title(body="Download file data test", text_alignment="center")
    st.subheader("Choose local data (csv)", divider=False)
 
-   st.download_button(
-    label="Download CSV",
+   range_cols = st.columns(3)
+   range_cols[0].download_button(
+    label="Database costs",
     data=df_srv.to_csv().encode("utf-8"),
     file_name="data.csv",
     mime="text/csv",
     icon=":material/download:",
-)
+   )
+   range_cols[1].download_button(
+    label="EXP costs",
+    data=data_exp.to_csv().encode("utf-8"),
+    file_name="data.csv",
+    mime="text/csv",
+    icon=":material/download:",
+   )
+   range_cols[2].download_button(
+    label="COMP costs",
+    data=data_comp.to_csv().encode("utf-8"),
+    file_name="data.csv",
+    mime="text/csv",
+    icon=":material/download:",
+   )
+   # st.download_button(
+   #  label="Download CSV",
+   #  data=df_srv.to_csv().encode("utf-8"),
+   #  file_name="data.csv",
+   #  mime="text/csv",
+   #  icon=":material/download:",
+   # )
    
 def pg_tests():
    st.page_link("pages/home.py", query_params={"diaplayLogo": str(st.session_state.is_session_pc) != 'True'})

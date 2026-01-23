@@ -340,8 +340,10 @@ def build_main_table(raw_data) -> pd.DataFrame:
         hide_index=True,
         )   
 
-def build_main_chart(raw_data):
-  with st.expander("Chart", expanded=True, width="stretch"):
+def build_main_chart(raw_data,title_expander=None):
+  if title_expander==None:
+   title_expander="Chart"
+  with st.expander(title_expander, expanded=True, width="stretch"):
     st.bar_chart(
        raw_data,
        x="Type",
@@ -349,9 +351,11 @@ def build_main_chart(raw_data):
        horizontal=True
     )
 
-def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str):
+def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str,title_expander=None):
+  if title_expander==None:
+     title_expander="Pivot table"
   palmon_types_df = raw_data.pivot_table(values=val_value, index=val_index, columns=val_columns)
-  with st.expander("Pivot table", expanded=True, width="stretch"):
+  with st.expander(title_expander, expanded=True, width="stretch"):
     st.dataframe(
        palmon_types_df.style.highlight_max(axis=0),
        column_config={
@@ -448,18 +452,18 @@ def pg_srv_6():
    col_border=False
    if with_logo==True:
       st.image("data_files/logo_02.jpg",width="stretch")
-   row1 = st.columns(2,border=col_border)
-   row2 = st.columns(2,border=col_border)
+   row1 = st.columns(2,border=col_border, width="stretch")
+   row2 = st.columns(2,border=col_border, width="stretch")
    if st.session_state['data_srv'] is not None:
       with st.spinner("Wait for it...", show_time=True):
          with row1[0]:
-            build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill')
+            build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill','Average level overview')
          with row1[1]:
-            build_main_chart(st.session_state['data_srv'])
+            build_main_chart(st.session_state['data_srv'],"Level total")
          with row2[0]:
-            build_pivot_table(st.session_state['data_srv'],'Level','Skill', None)
+            build_pivot_table(st.session_state['data_srv'],'Level','Skill', None, 'Average level per skill')
          with row2[1]:
-            build_pivot_table(st.session_state['data_srv'],'Level','Type', None)
+            build_pivot_table(st.session_state['data_srv'],'Level','Type', None, 'Average level per type')
 
 def pg_download() -> st.Page:
    if with_logo==True:

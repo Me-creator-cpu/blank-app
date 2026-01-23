@@ -449,14 +449,14 @@ def pg_srv_5():
       build_exp_table(st.session_state['data_exp'],'EXP costs')
 
 def pg_srv_6():
-   col_border=True
-   row0 = st.columns([3, 1], border=col_border)   
+   col_border=False
+   row0 = st.columns([1, 3, 1], border=col_border)   
    row1 = st.columns(2,border=col_border, width="stretch")
    row2 = st.columns(2,border=col_border, width="stretch")   
    with_logo=True
    if with_logo==True:
-      with row0[0]:
-         st.image("data_files/logo_02.jpg",width="stretch")
+      with row0[1]:
+         st.image("data_files/logo_03.jpg",width="stretch")
    if st.session_state['data_srv'] is not None:
       with st.spinner("Wait for it...", show_time=True):
          with row1[0]:

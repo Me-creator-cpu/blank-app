@@ -435,7 +435,7 @@ def pg_srv_4():
 def pg_srv_5():
    col1, col2 = st.columns([1, 3])
    if with_logo==True:
-      col1.image("data_files/logo_02.jpg")
+      col1.image("data_files/logo_02.jpg",use_column_width=True)
    st.session_state['data_exp'] = read_csv(PATH_EXP)
    if st.session_state['data_exp'] is not None:
       with col2.container(border=True):

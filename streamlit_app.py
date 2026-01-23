@@ -496,7 +496,7 @@ if uploaded_file is not None:
   df_loc = pd.read_csv(uploaded_file)
   st.session_state['data_loc'] = df_loc
   data_loc = df_loc
-
+with_logo=True
 #var_server=st.markdown(":violet-badge[:material/star: Favorite]")
 pages = {
     "Home" : [ st.Page("pages/home.py", title="Home", icon=":material/home:") ],

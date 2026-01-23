@@ -354,10 +354,39 @@ def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str)
           "Attack": st.column_config.NumberColumn( "⚔ Attack", step=".01" ), #:crossed_swords:
           "Defend": st.column_config.NumberColumn( "🛡 Defend", step=".01" ), #:shield:
         },
-       use_container_width=True,
+       width="stretch",
        hide_index=None,
     )
 #st.dataframe(df.style.highlight_max(axis=0))
+
+def build_main_chart_cont(raw_data):
+  cont=st.container(width="stretch")
+  with cont:
+   with st.expander("Chart", expanded=True, width="stretch"):
+      st.bar_chart(
+         raw_data,
+         x="Type",
+         y="Level",
+         horizontal=True
+      )
+  return cont
+
+def build_pivot_table_cont(raw_data,val_value: str, val_index: str, val_columns: str):
+  cont=st.container(width="stretch")
+  with cont:  
+   palmon_types_df = raw_data.pivot_table(values=val_value, index=val_index, columns=val_columns)
+   with st.expander("Pivot table", expanded=True, width="stretch"):
+      st.dataframe(
+         palmon_types_df.style.highlight_max(axis=0),
+         column_config={
+            "Type": st.column_config.TextColumn( "Type", pinned = True ),
+            "Attack": st.column_config.NumberColumn( "⚔ Attack", step=".01" ), #:crossed_swords:
+            "Defend": st.column_config.NumberColumn( "🛡 Defend", step=".01" ), #:shield:
+         },
+         width="stretch",
+         hide_index=None,
+      )
+  return cont
 
 # ===========================================================
 #   Pages
@@ -439,6 +468,15 @@ def pg_srv_5():
    if st.session_state['data_exp'] is not None:
       build_exp_table(st.session_state['data_exp'],'EXP costs')
 
+def pg_srv_6():
+   if with_logo==True:
+      st.image("data_files/logo_02.jpg",width="stretch")
+   row1 = st.columns(2)
+   row2 = st.columns(2)
+   if st.session_state['data_srv'] is not None:
+      row1[0] = build_pivot_table_cont(st.session_state['data_srv'])
+      row1[1] = build_main_chart_cont(st.session_state['data_srv'])
+
 def pg_download() -> st.Page:
    if with_logo==True:
       st.image("data_files/logo_05.jpg",width="stretch")
@@ -513,6 +551,7 @@ pages = {
         st.Page(pg_srv_3, title="Pivot", icon=option_menu[4]),
         st.Page(pg_srv_4, title="Competencies", icon=option_menu[2]),
         st.Page(pg_srv_5, title="EXP", icon=option_menu[2]),
+        st.Page(pg_srv_6, title="Dashboard", icon=option_menu[2]),
         st.Page(pg_download, title="Download Data", icon=option_menu[5]),
     ],
     "Tests":[

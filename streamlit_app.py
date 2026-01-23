@@ -438,7 +438,8 @@ def pg_srv_5():
       col1.image("data_files/logo_02.jpg")
    st.session_state['data_exp'] = read_csv(PATH_EXP)
    if st.session_state['data_exp'] is not None:
-      col2 = build_exp_table(st.session_state['data_exp'],'EXP costs')  
+      with col2.container():
+         build_exp_table(st.session_state['data_exp'],'EXP costs')  
 
 def pg_download() -> st.Page:
    if with_logo==True:

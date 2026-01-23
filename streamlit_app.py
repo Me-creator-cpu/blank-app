@@ -444,21 +444,21 @@ def pg_download() -> st.Page:
    range_cols[0].download_button(
     label="Database costs",
     data=df_srv.to_csv().encode("utf-8"),
-    file_name="data.csv",
+    file_name="base_data.csv",
     mime="text/csv",
     icon=":material/download:",
    )
    range_cols[1].download_button(
     label="EXP costs",
     data=data_exp.to_csv().encode("utf-8"),
-    file_name="data.csv",
+    file_name="exp_data.csv",
     mime="text/csv",
     icon=":material/download:",
    )
    range_cols[2].download_button(
     label="COMP costs",
     data=data_comp.to_csv().encode("utf-8"),
-    file_name="data.csv",
+    file_name="comp_data.csv",
     mime="text/csv",
     icon=":material/download:",
    )

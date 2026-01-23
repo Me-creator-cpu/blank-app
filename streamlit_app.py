@@ -180,7 +180,7 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
          df,
          column_config={
             "Cost": st.column_config.NumberColumn(
-                  total_col,
+                  "Costs",
                   min_value=0,
                   max_value=10000000000,
                   step=1,

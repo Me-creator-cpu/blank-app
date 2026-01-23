@@ -41,6 +41,7 @@ if 'data_loc' not in st.session_state:
 if 'data_srv' not in st.session_state:
     st.session_state['data_srv'] = None    
 PATH = 'data_files/PS_streamlit_US_v0.csv'
+# PATH = 'data_files/PS_streamlit_US_v1.csv'
 PATH_COMP = 'data_files/PS_COMP.csv'
 PATH_EXP = 'data_files/PS_EXP.csv'
 
@@ -383,7 +384,6 @@ def pg_home():
     st.title(body="File data test", text_alignment="center")
     st.header(str(time.localtime().tm_mday) + "/" + abbr[time.localtime().tm_mon] + "/" + str(time.localtime().tm_year), divider=True)
     st.subheader("Choose local data (to upload) or server data (git)", divider=True)
-    st.subheader("blabla", divider=True)
     st.caption(f"Server file used: {PATH}")
 
 def pg_loc_0():
@@ -532,8 +532,8 @@ if uploaded_file is not None:
 
 #var_server=st.markdown(":violet-badge[:material/star: Favorite]")
 pages = {
-    "Home" : [ st.Page("pages/home.py", title="Home", icon=":material/home:") ],
-    # "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
+   #  "Home" : [ st.Page("pages/home.py", title="Home", icon=":material/home:") ],
+    "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
     "Local data": [
         st.Page(pg_loc_0, title="Select file...", icon=option_menu[1]),
         st.Page(pg_loc_1, title="Table", icon=option_menu[2]),

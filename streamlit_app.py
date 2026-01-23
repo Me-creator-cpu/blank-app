@@ -427,14 +427,14 @@ def pg_srv_3():
 
 def pg_srv_4():
    if with_logo==True:
-      st.image("data_files/logo_03.jpg",use_container_width=True)
+      st.image("data_files/logo_03.jpg",width="stretch")
    st.session_state['data_comp'] = read_csv(PATH_COMP)
    if st.session_state['data_comp'] is not None:
       build_comp_table(st.session_state['data_comp'],'COMP costs')   
 
 def pg_srv_5():
    if with_logo==True:
-      st.image("data_files/logo_02.jpg",use_container_width=True)
+      st.image("data_files/logo_02.jpg",width="stretch")
    st.session_state['data_exp'] = read_csv(PATH_EXP)
    if st.session_state['data_exp'] is not None:
       build_exp_table(st.session_state['data_exp'],'EXP costs')

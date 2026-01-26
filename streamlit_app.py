@@ -457,7 +457,7 @@ def pg_srv_6():
    row0 = st.columns([1, 3, 1], border=col_border)   
    row1 = st.columns(2,border=col_border, width="stretch")
    row2 = st.columns(2,border=col_border, width="stretch")   
-   with_logo=True
+   with_logo=False
    if with_logo==True:
       with row0[1]:
          st.image("data_files/logo_03.jpg",width="stretch")

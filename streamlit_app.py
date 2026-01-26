@@ -6,13 +6,17 @@ import time
 from streamlit_javascript import st_javascript
 from user_agents import parse
 from streamlit_dynamic_filters import DynamicFilters
+from yfiles_graphs_for_streamlit import StreamlitGraphWidget, Layout, LabelStyle, FontWeight, EdgeStyle
+from networkx import florentine_families_graph
 
 # Modifier en conséquence le fichier: requirements.txt
 # pip install streamlit-javascript
 # pip install pyyaml ua-parser user-agents
 # pip install streamlit-dynamic-filters
+# pip install yfiles_graphs_for_streamlit
 # https://levelup.gitconnected.com/dynamic-dataframe-filtering-in-streamlit-aeae5de0f92a
 # https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints
+# https://www.yworks.com/products/yfiles-graphs-for-streamlit
 
 # App sur: https://fictional-zebra-5gjww6p9wqjwf466r.github.dev/
 
@@ -453,24 +457,42 @@ def pg_srv_5():
       build_exp_table(st.session_state['data_exp'],'EXP costs')
 
 def pg_srv_6():
-   col_border=False
-   row0 = st.columns([1, 3, 1], border=col_border)   
-   row1 = st.columns(2,border=col_border, width="stretch")
-   row2 = st.columns(2,border=col_border, width="stretch")   
+   col_border=False 
    with_logo=False
+   column='Type'
    if with_logo==True:
+      row0 = st.columns([1, 3, 1], border=col_border)
       with row0[1]:
          st.image("data_files/logo_03.jpg",width="stretch")
+   else:
+      row0 = st.header("Dashboad", divider=True) 
+
    if st.session_state['data_srv'] is not None:
+      df = st.session_state['data_srv']
+      options = st.multiselect(f"Filter values for {column}:", df[column].unique(), default=list(df[column].unique()))
+      filtered_df = df[df[column].isin(options)]
+
+      row1 = st.columns(2,border=col_border, width="stretch")
+      row2 = st.columns(2,border=col_border, width="stretch")  
+      row3 = st.columns(2,border=col_border, width="stretch")
+
       with st.spinner("Wait for it...", show_time=True):
          with row1[0]:
-            build_pivot_table(st.session_state['data_srv'],'Level','Type','Skill','Average level overview')
+            build_pivot_table(filtered_df,'Level','Type','Skill','Average level overview')
          with row1[1]:
-            build_main_chart(st.session_state['data_srv'],"Level total")
+            build_main_chart(filtered_df,"Level total")
          with row2[0]:
-            build_pivot_table(st.session_state['data_srv'],'Level','Skill', None, 'Average level per skill')
+            build_pivot_table(filtered_df,'Level','Skill', None, 'Average level per skill')
          with row2[1]:
-            build_pivot_table(st.session_state['data_srv'],'Level','Type', None, 'Average level per type')
+            build_pivot_table(filtered_df,'Level','Type', None, 'Average level per type')
+         with row3[0]:
+            df_gr = filtered_df[['Name', 'Type', 'Skill', 'Level','Rank']]
+            regular_search_term = df_gr.groupby(['Type'])['Rank'].head(7)
+            build_pivot_table(df_gr[filtered_df['Rank'].isin(regular_search_term)],'Level','Type', None, 'Average Top 7 per type')
+         with row3[1]:
+            df_gr = filtered_df[['Name', 'Type', 'Skill', 'Level','Rank']]
+            regular_search_term = df_gr.groupby(['Type'])['Rank'].head(2)
+            st.write(df_gr[filtered_df['Rank'].isin(regular_search_term)])
 
 def pg_download() -> st.Page:
    if with_logo==True:
@@ -511,6 +533,104 @@ def pg_download() -> st.Page:
 def pg_tests():
    st.page_link("pages/home.py", query_params={"diaplayLogo": str(st.session_state.is_session_pc) != 'True'})
 
+def is_in_medici_line(node_id: int) -> bool:
+    """Return True if the node represents a Medici marriage line node"""
+    for node in graph.nodes:
+        if node.get("id") == node_id:
+            label = (
+                    node.get("properties", {}).get("label")
+                    or node.get("label")  # fallback if properties.label missing
+            )
+            return label in medici_line if label is not None else False
+    return False
+
+def pg_test_graph():
+   st.set_page_config(
+      page_title="yFiles Graphs for Streamlit",
+      layout="wide",
+   )
+   # st.markdown("---")
+   # st.title("Data-driven visualization")
+   # medici_line = ["Acciaiuoli", "Medici", "Albizzi", "Guadagni", "Lamberteschi"]
+   # graph = StreamlitGraphWidget.from_graph(
+   #    # import NetworkX sample graph
+   #    graph = florentine_families_graph(),
+   #    # color Medici marriage line
+   #    node_color_mapping = lambda node: "#FF5722" if node["properties"]["label"] in medici_line else "#BDBDBD",
+   #    # increase node sizes of Medici marriage line
+   #    node_size_mapping = lambda node: (85, 85) if node["properties"]["label"] in medici_line else (55, 55),
+   #    # apply a heat mapping to the Medici marriage line
+   #    heat_mapping = lambda item: 0.5 if item["properties"]["label"] in medici_line else 0.0,
+   #    # highlight edges between Medici marriage line nodes
+   #    edge_styles_mapping = lambda edge: EdgeStyle(
+   #       color = "#FF0000" if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else "#BDBDBD",
+   #       thickness = 6 if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else 1
+   #    ),
+   #    # emphasize Medici marriage line node labels
+   #    node_label_mapping = lambda n: LabelStyle(
+   #       text = n["properties"]["label"],
+   #       font_weight = FontWeight.BOLD if n["properties"]["label"] in medici_line else FontWeight.NORMAL,
+   #       font_size = 16 if n["properties"]["label"] in medici_line else 12
+   #    )
+   # )
+
+   # # render the component
+   # graph.show(graph_layout=Layout.HIERARCHIC)
+
+   # st.markdown("---")
+
+   #Graphe Costs
+   # if st.session_state['data_exp'] is not None:
+   #    df = st.session_state['data_exp'][['Lvl from', 'Cost']]
+   #    st.line_chart(df['Cost'])
+
+   #Graphe per type
+   chart = {
+    "mark": "point",
+    "params": [
+      {"name": "interval_selection", "select": "interval"},
+      {"name": "point_selection", "select": "point"},
+    ],
+    "encoding": {
+        "x": {
+            "field": "Stars",
+            "type": "quantitative",
+        },
+        "y": {
+            "field": "Level",
+            "type": "quantitative",
+        },
+        "size": {"field": "Achievement", "type": "quantitative"},
+        "color": {"field": "Skill", "type": "nominal"},
+        "shape": {"field": "Type", "type": "nominal"},
+    },
+   }
+   column='Type'
+   # source = df_srv
+   options = st.multiselect(f"Filter values for {column}:", df_srv[column].unique(), default=list(df_srv[column].unique()))
+   source = df_srv[df_srv[column].isin(options)]   
+   tab1, tab2 = st.tabs(["Streamlit theme (default)", "Vega-Lite native theme"])
+   with tab1:
+      st.vega_lite_chart(
+         source, chart, theme="streamlit", use_container_width=True
+      )
+   with tab2:
+      event = st.vega_lite_chart(
+         source, chart, theme=None, use_container_width=True, on_select="rerun"
+      )
+   try:
+      df_level = event.selection.interval_selection.Level
+      df_stars = event.selection.interval_selection.Stars
+      min_val_level, max_val_level = df_level[0], df_level[1]
+      min_val_stars, max_val_stars = df_stars[0], df_stars[1]
+      df_selection = df_srv[(df_srv['Level'] >= min_val_level) & (df_srv['Level'] <= max_val_level)]
+      df_selection = df_selection[(df_selection['Stars'] >= min_val_stars) & (df_selection['Stars'] <= max_val_stars)]
+   except:
+      df_selection=source[['Name', 'Type', 'Skill', 'Level','Stars']]
+   st.write(df_selection)
+
+
+
 # ===========================================================
 #   Lancement
 # ===========================================================
@@ -548,6 +668,7 @@ pages = {
         st.Page(pg_srv_5, title="EXP", icon=option_menu[2]),
         st.Page(pg_srv_6, title="Dashboard", icon=option_menu[2]),
         st.Page(pg_download, title="Download Data", icon=option_menu[5]),
+        st.Page(pg_test_graph,title="Test",icon=option_menu[1]),
     ],
     "Tests":[
        st.Page(pg_tests, title="Test01", icon=option_menu[2]),

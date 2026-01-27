@@ -2,3 +2,5 @@ streamlit
 streamlit_javascript
 user_agents
 streamlit_dynamic_filters
+yfiles_graphs_for_streamlit
+networkx

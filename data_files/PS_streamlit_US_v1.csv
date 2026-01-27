@@ -1,5 +1,5 @@
 Name,Type,Skill,Level,Step,Stars,Stock,Comp 1,Comp 2,Comp 3,Comp 4,Comp 5,Star 1,Star 2,Star 3,Star 4,Star 5,Achievement,Needs,Cost to max,Upgradable,RankPower,Rank,Team,URL,URL Mutation,URL Mutation2,Mutation 1,Mutation 2
-Bufonobi,Water,Attack,250,5,5,0,1,1,1,1,1,20,20,20,Max,10,1,0,0,,5250,1,1,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXczs_Bjhslhr7Mf2HENU6MTyGpz0RJEMjNA&s, ,,Shadowkaeru,
+Bufonobi,Water,Attack,250,5,5,0,1,1,1,1,1,20,20,20,Max,10,1,0,0,,5250,1,1,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXczs_Bjhslhr7Mf2HENU6MTyGpz0RJEMjNA&s, ,,Shadowkaeru,,
 Vulpyrean,Fire,Attack,250,5,5,0,1,1,1,1,1,20,20,20,Max,10,1,0,0,,5250,2,1,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZWuq2tiKYc0zKRxpHXrLSMZ1GsY_6wEIYw&s,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGF27Z8fOuiwM1qjDFQVY262gS_QKIJamMNg&s,,
 Hoofrit,Fire,Attack,250,4,4,11,1,1,1,1,0,15,15,15,Max,,0,487179487,489,0,,4250,5,1,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwfHFWjB1bN67FJNyjjWvBJwviWJ3Tada0Yg&s,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkOv6mOI5FaIAjcVgErYDwVaivkH3WdUQIzw&s,Flaries,,
 Ghillant,Wood,Defend,250,4,4,1,0,1,1,1,1,0,2,5,5,5,Max,,0,58974359,400,0,,4350,3,1,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOwDXppnwkCtCXXAqUiiNMhf6T-lane54jPg&s, ,Chefeuillier,,
@@ -39,4 +39,5 @@ Voltfang,Electricity,Attack,,0,,,0,0,0,0,0,,,,,,0,975,2921073700,,0,38,,, ,,,
 Leafgarde,Wood,Attack,,0,,,0,0,0,0,0,,,,,,0,975,2921073700,,0,39,,, ,,,
 Inferdrake,Fire,Attack,,0,,,0,0,0,0,0,,,,,,0,975,2921073700,,0,40,,, ,,,
 Revontulet,Fire,Attack,154,2,2,3,0,1,1,0,6,0,0,1,1,1,,,0,138461538,840,2828000000,1,2454,17,3,, ,Vulpyrean,Camouflynx,
+
 

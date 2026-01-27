@@ -47,7 +47,6 @@ if 'data_srv' not in st.session_state:
 
 
 PATH = 'data_files/PS_streamlit_US_v1.csv'
-PATH = 'data_files/PS_streamlit_US_v0.csv'
 PATH_COMP = 'data_files/PS_COMP.csv'
 PATH_EXP = 'data_files/PS_EXP.csv'
 

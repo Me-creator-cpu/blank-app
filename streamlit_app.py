@@ -644,7 +644,7 @@ def pg_test_graph():
       df_selection = df_selection[(df_selection['Stars'] >= min_val_stars) & (df_selection['Stars'] <= max_val_stars)]
    except:
       df_selection=source[['Name', 'Type', 'Skill', 'Level','Stars']]
-   st.write(df_selection)
+   # st.write(df_selection)
    df_selection.display_df(
            width = "content",
            column_config=column_config,

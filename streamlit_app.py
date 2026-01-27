@@ -508,8 +508,8 @@ def pg_srv_6():
             regular_search_term = df_gr.groupby(['Type'])['Rank'].head(2)
             st.write(df_gr[filtered_df['Rank'].isin(regular_search_term)])
          with row4[0]:
-            df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count())
-            st.write(df_gr)
+            avg_df = df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count())
+            st.write(avg_df)
 
 def pg_download() -> st.Page:
    if with_logo==True:

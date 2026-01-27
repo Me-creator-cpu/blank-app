@@ -43,9 +43,11 @@ if 'uploaded_file' not in st.session_state:
 if 'data_loc' not in st.session_state:
     st.session_state['data_loc'] = None
 if 'data_srv' not in st.session_state:
-    st.session_state['data_srv'] = None    
-# PATH = 'data_files/PS_streamlit_US_v0.csv'
+    st.session_state['data_srv'] = None
+
+
 PATH = 'data_files/PS_streamlit_US_v1.csv'
+PATH = 'data_files/PS_streamlit_US_v0.csv'
 PATH_COMP = 'data_files/PS_COMP.csv'
 PATH_EXP = 'data_files/PS_EXP.csv'
 

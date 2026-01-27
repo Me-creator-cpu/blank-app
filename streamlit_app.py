@@ -488,6 +488,7 @@ def pg_srv_6():
       row1 = st.columns(2,border=col_border, width="stretch")
       row2 = st.columns(2,border=col_border, width="stretch")  
       row3 = st.columns(2,border=col_border, width="stretch")
+      row4 = st.columns(2,border=col_border, width="stretch")
 
       with st.spinner("Wait for it...", show_time=True):
          with row1[0]:
@@ -506,6 +507,9 @@ def pg_srv_6():
             df_gr = filtered_df[['Name', 'Type', 'Skill', 'Level','Rank']]
             regular_search_term = df_gr.groupby(['Type'])['Rank'].head(2)
             st.write(df_gr[filtered_df['Rank'].isin(regular_search_term)])
+         with row4[0]:
+            df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count())
+            st.write(df_gr)
 
 def pg_download() -> st.Page:
    if with_logo==True:

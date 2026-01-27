@@ -645,6 +645,11 @@ def pg_test_graph():
    except:
       df_selection=source[['Name', 'Type', 'Skill', 'Level','Stars']]
    st.write(df_selection)
+   df_selection.display_df(
+           width = "content",
+           column_config=column_config,
+           hide_index=True
+   )
 
 
 

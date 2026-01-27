@@ -390,7 +390,19 @@ def pg_home():
     st.title(body="File data test", text_alignment="center")
     st.header(str(time.localtime().tm_mday) + "/" + abbr[time.localtime().tm_mon] + "/" + str(time.localtime().tm_year), divider=True)
     st.subheader("Choose local data (to upload) or server data (git)", divider=True)
-    st.caption(f"Server file used: {PATH}")
+    st.caption(f"Server files used:")
+    fileinfo={
+       "Data":PATH,
+       "Comp":PATH_COMP,
+       "EXP":PATH_EXP
+    }
+    st.dataframe(
+        fileinfo,
+        height = "content",
+        width = "content",
+        selection_mode = "single-row",
+        hide_index=False,
+        )  
 
 def pg_loc_0():
    uploaded_file = st.file_uploader("Choose a file")

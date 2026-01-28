@@ -537,7 +537,7 @@ def pg_srv_6():
              avg_df = df_gr.set_index('Type').groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count(), include_groups=False).to_frame('Level')
              # build_main_chart(avg_df,"Level Average")
              st.bar_chart(
-                 raw_data,
+                 avg_df,
                  x="Type",
                  y="Level",
                  horizontal=True

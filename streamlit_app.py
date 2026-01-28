@@ -651,12 +651,12 @@ def pg_test_graph():
    with tab1:
       st.vega_lite_chart(
          #source, chart, theme="streamlit", use_container_width=True
-         source, chart, theme="streamlit", width="content"
+         source, chart, theme="streamlit", width="stretch"
       )
    with tab2:
       event = st.vega_lite_chart(
          #source, chart, theme=None, use_container_width=True, on_select="rerun"
-         source, chart, theme=None, width="content", on_select="rerun"
+         source, chart, theme=None, on_select="rerun", width="stretch"
       )
    try:
       df_level = event.selection.interval_selection.Level

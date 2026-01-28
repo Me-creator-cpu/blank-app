@@ -670,7 +670,7 @@ def pg_test_tiles():
 
 def pg_options():
     st.header("Options", divider=True) 
-    with_logo = st.toggle("Activate images")
+    with_logo = st.toggle("Activate images", value=with_logo)
     if with_logo:
         st.write("Feature activated!")
 

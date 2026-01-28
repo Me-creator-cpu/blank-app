@@ -686,29 +686,30 @@ def pg_test_tiles():
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)
         for j in range(len(tlst)-1):
-            strName=source.Name[i]
-            strImage='data_files/logo_0' + str(i) + '.jpg'
-            strContent=build_tile(strName+' ' + str(i) + '-' + str(j+1),strImage,i,j)
+            strName=source.Name[palidx]
+            strImage=source.URL[palidx]
+            intLevel=int(source.Level[palidx])
+            intStars=int(source.Stars[palidx])
+            strSkill=source.Skill[palidx]
+            strType=source.Type[palidx]
+            strContent=build_tile(strName+' ' + str(i) + '-' + str(j+1),strImage,intLevel,intStars,strSkill,strType)
             globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
+            palidx=palidx+1
             #globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
         #st.markdown(":orange-badge[Demo]")
 
-def build_tile(name="Caption Tile",image_url="",level=1,stars=0):
+def build_tile(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
     strHtml='<span>'
     strHtml=strHtml+'<table>'
     strHtml=strHtml+'<tr>'
-    strHtml=strHtml+'    <td rowspan=4><img src="'+image_url+'" width="80px"></td>'
+    strHtml=strHtml+'    <td rowspan=6><img src="'+image_url+'" width="80px"></td>'
     strHtml=strHtml+'    <td colspan=2><b>'+name+'</b></td>'
     strHtml=strHtml+'</tr>'
-    strHtml=strHtml+'<tr>'
-    strHtml=strHtml+'    <td>Level</td><td>'+str(level)+'</td>'
-    strHtml=strHtml+'</tr>'
-    strHtml=strHtml+'<tr>'
-    strHtml=strHtml+'    <td>Stars</td><td>'+str(stars)+'</td>'
-    strHtml=strHtml+'</tr>'
-    strHtml=strHtml+'<tr>'
-    strHtml=strHtml+'    <td>Cell</td><td>Cell</td>'
-    strHtml=strHtml+'</tr>'
+    strHtml=strHtml+'<tr><td>Type</td><td>'+type+'</td></tr>'
+    strHtml=strHtml+'<tr><td>Skill</td><td>'+skill+'</td></tr>'
+    strHtml=strHtml+'<tr><td>Level</td><td>'+str(level)+'</td></tr>'
+    strHtml=strHtml+'<tr><td>Stars</td><td>'+str(stars)+'</td></tr>'
+    strHtml=strHtml+'<tr><td>Cell</td><td>Cell</td></tr>'
     strHtml=strHtml+'</table></span>'
     return strHtml
 

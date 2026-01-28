@@ -31,14 +31,14 @@ global data_srv
 global data_comp
 global data_exp
 global logo_src
-global with_logo
+global bln_with_logo
 uploaded_file = None
 is_session_pc = 'True'
 logo_src="data_files/logo_01.jpg"
 st.session_state.logo_src = logo_src
-with_logo = False
-# with_logo = True
-st.session_state.with_logo = with_logo
+bln_with_logo = False
+# bln_with_logo = True
+st.session_state.bln_with_logo = bln_with_logo
 st.session_state.dataframe_filters = {}
 data_loc = {}
 data_srv = {}
@@ -182,6 +182,14 @@ def config_df(raw_data):
    cols = st.columns(4)
    level = cols[0].multiselect("Level", level_values)
    return df,level,level_values
+
+def with_logo(val=None):
+    if val is None:
+        bln=bol(st.session_state.bln_with_logo)
+    else:
+        bln=bol(val)
+    st.session_state.bln_with_logo = bol(bln)
+    return bol(st.session_state.bln_with_logo)
 
 def build_any_table(raw_data,title_expander) -> pd.DataFrame:
   df = raw_data.copy()
@@ -484,7 +492,7 @@ def pg_srv_5():
 
 def pg_srv_6():
    col_border=False 
-   with_logo=False
+   #with_logo(False)
    column='Type'
    if with_logo==True:
       row0 = st.columns([1, 3, 1], border=col_border)
@@ -672,14 +680,14 @@ def pg_test_tiles():
 
 def pg_options():
     st.header("Options", divider=True)
-    if st.session_state.with_logo==True:
+    if st.session_state.bln_with_logo==True:
         on_logo = st.toggle("Activate images", value=True)
     else:
         on_logo = st.toggle("Activate images", value=False)
     if on_logo:
         st.write("Feature activated!")
-    with_logo = on_logo
-    st.session_state.with_logo = on_logo
+    with_logo(on_logo)
+    st.session_state.bln_with_logo = on_logo
 
 # ===========================================================
 #   Lancement
@@ -690,7 +698,7 @@ data_comp = read_csv(PATH_COMP)
 data_exp = read_csv(PATH_EXP)
 
 init()
-with_logo = False
+with_logo(False)
 if df_srv is not None:
    data_srv = df_srv
    st.session_state['data_srv'] = df_srv
@@ -724,7 +732,7 @@ pages = {
         st.Page(pg_test_graph,title="Test graph",icon=option_menu[1]),
         st.Page(pg_test_tiles,title="Test tiles",icon=option_menu[2]),        
     ],
-    "Options":[st.Page(pg_options, title="Table", icon=option_menu[2])],
+    "Parameters":[st.Page(pg_options, title="Options", icon=option_menu[2])],
 }
 if str(st.session_state.is_session_pc) != 'True':
    pages.pop("Local data")

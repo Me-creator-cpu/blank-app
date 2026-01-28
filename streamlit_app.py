@@ -38,6 +38,7 @@ logo_src="data_files/logo_01.jpg"
 st.session_state.logo_src = logo_src
 with_logo = False
 # with_logo = True
+st.session_state.with_logo = with_logo
 st.session_state.dataframe_filters = {}
 data_loc = {}
 data_srv = {}
@@ -671,13 +672,14 @@ def pg_test_tiles():
 
 def pg_options():
     st.header("Options", divider=True)
-    if with_logo==True:
+    if st.session_state.with_logo==True:
         on_logo = st.toggle("Activate images", value=True)
     else:
         on_logo = st.toggle("Activate images", value=False)
     if on_logo:
         st.write("Feature activated!")
     with_logo = on_logo
+    st.session_state.with_logo = on_logo
 
 # ===========================================================
 #   Lancement

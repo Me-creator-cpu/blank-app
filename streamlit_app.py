@@ -677,15 +677,16 @@ def pg_test_graph():
 
 def pg_test_tiles():
     total_cells_per_row_or_col = 5
+    palidx=0
     #titles=[f"Image #{str(i)}" for i in range(len(images))]
     for i in range(1, (total_cells_per_row_or_col)):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)
-        for j in range(len(tlst)):
-            strContent=build_tile(str(i) + '-' + str(j))
+        for j in range(len(tlst)-1):
+            name=df_srv.name(palidx)
+            strContent=build_tile(name+' '+str(i) + '-' + str(j+1))
             globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
             #globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
-        #build_tile()        build_tile_v2
         #st.markdown(":orange-badge[Demo]")
 
 def build_tile(name="Caption Tile",image_url="",level=1,stars=0):

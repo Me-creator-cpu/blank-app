@@ -686,7 +686,7 @@ def pg_test_tiles():
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)
         for j in range(len(tlst)-1):
-            strContent=build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
+            strContent=build_tile_v2(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
             globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
             palidx=palidx+1
             #globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
@@ -699,6 +699,19 @@ def build_tile(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""
     strHtml=strHtml+'    <td rowspan=6><img src="'+image_url+'" width="1600px"></td>'
     strHtml=strHtml+'    <td colspan=2><b>'+name+'</b></td>'
     strHtml=strHtml+'</tr>'
+    strHtml=strHtml+'<tr><td>Type</td><td>'+type+'</td></tr>'
+    strHtml=strHtml+'<tr><td>Skill</td><td>'+skill+'</td></tr>'
+    strHtml=strHtml+'<tr><td>Level</td><td>'+str(level)+'</td></tr>'
+    strHtml=strHtml+'<tr><td>Stars</td><td>'+str(stars)+'</td></tr>'
+    strHtml=strHtml+'<tr><td>Cell</td><td>Cell</td></tr>'
+    strHtml=strHtml+'</table></span>'
+    return strHtml
+
+def build_tile_v2(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
+    strHtml='<span>'
+    strHtml=strHtml+'<table>'
+    strHtml=strHtml+'<tr><td colspan=2><img src="'+image_url+'></td>'
+    strHtml=strHtml+'<tr><td colspan=2><b>'+name+'</b></td></tr>'
     strHtml=strHtml+'<tr><td>Type</td><td>'+type+'</td></tr>'
     strHtml=strHtml+'<tr><td>Skill</td><td>'+skill+'</td></tr>'
     strHtml=strHtml+'<tr><td>Level</td><td>'+str(level)+'</td></tr>'

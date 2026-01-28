@@ -677,9 +677,18 @@ def pg_test_graph():
 
 def pg_test_tiles():
     total_cells_per_row_or_col = 5
+    #titles=[f"Image #{str(i)}" for i in range(len(images))]
     for i in range(1, (total_cells_per_row_or_col+1)):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
-        globals()['cols' + str(i)] = st.columns(tlst)    
+        globals()['cols' + str(i)] = st.columns(tlst)
+        for j in range(len(tlst))
+            globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
+        #build_tile()
+        #st.markdown(":orange-badge[Demo]")
+
+
+def build_tile(oCell,strCaption="Caption Tile"):
+    oCell=st.markdown(":orange-badge[{strCaption}]")
 
 def pg_options():
     st.header("Options", divider=True)

@@ -671,7 +671,7 @@ def pg_test_graph():
    st.dataframe(
         df_selection,
         # height = "content",
-        width = "content",
+        width = "stretch",
         selection_mode = "single-row",
         column_config=column_config,
         hide_index=True,

@@ -656,11 +656,13 @@ def pg_test_graph():
    except:
       df_selection=source[['Name', 'Type', 'Skill', 'Level','Stars']]
    # st.write(df_selection)
-   df_tab = pd.DataFrame(df_selection)
-   df_tab.display_df(
-           width = "content",
-           column_config=column_config,
-           hide_index=True
+   st.dataframe(
+        df_selection,
+        # height = "content",
+        width = "content",
+        selection_mode = "single-row",
+        column_config=column_config,
+        hide_index=True,
    )
 
 

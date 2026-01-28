@@ -31,6 +31,7 @@ global data_srv
 global data_comp
 global data_exp
 global logo_src
+global with_logo
 uploaded_file = None
 is_session_pc = 'True'
 logo_src="data_files/logo_01.jpg"

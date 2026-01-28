@@ -666,7 +666,7 @@ def pg_test_graph():
       df_selection = df_srv[(df_srv['Level'] >= min_val_level) & (df_srv['Level'] <= max_val_level)]
       df_selection = df_selection[(df_selection['Stars'] >= min_val_stars) & (df_selection['Stars'] <= max_val_stars)]
    except:
-      df_selection=source[['Name', 'Type', 'Skill', 'Level','Stars']]
+      df_selection=source[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
    # st.write(df_selection)
    #st.dataframe(
    #     df_selection,

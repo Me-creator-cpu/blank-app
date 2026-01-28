@@ -538,7 +538,6 @@ def pg_srv_6():
              # build_main_chart(avg_df,"Level Average")
              st.bar_chart(
                  avg_df,
-                 x="Type",
                  y="Level",
                  horizontal=True
              )

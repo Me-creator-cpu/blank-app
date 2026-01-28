@@ -650,11 +650,13 @@ def pg_test_graph():
    tab1, tab2 = st.tabs(["Streamlit theme (default)", "Vega-Lite native theme"])
    with tab1:
       st.vega_lite_chart(
-         source, chart, theme="streamlit", use_container_width=True
+         #source, chart, theme="streamlit", use_container_width=True
+         source, chart, theme="streamlit", width="content"
       )
    with tab2:
       event = st.vega_lite_chart(
-         source, chart, theme=None, use_container_width=True, on_select="rerun"
+         #source, chart, theme=None, use_container_width=True, on_select="rerun"
+         source, chart, theme=None, width="content", on_select="rerun"
       )
    try:
       df_level = event.selection.interval_selection.Level

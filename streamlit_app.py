@@ -683,8 +683,9 @@ def pg_test_tiles():
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)
         for j in range(len(tlst)-1):
-            name=df_srv.Stars(palidx)
-            strContent=build_tile(name+' '+str(i) + '-' + str(j+1))
+            strName=df_srv.Stars[palidx]
+            strImage='data_files/logo_0' + str(i) + '.jpg'
+            strContent=build_tile(strName+' ' + str(i) + '-' + str(j+1),strImage,i,j)
             globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
             #globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
         #st.markdown(":orange-badge[Demo]")

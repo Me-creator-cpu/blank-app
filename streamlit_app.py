@@ -681,7 +681,7 @@ def pg_test_tiles():
     for i in range(1, (total_cells_per_row_or_col+1)):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)
-        for j in range(len(tlst))
+        for j in range(len(tlst)):
             globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
         #build_tile()
         #st.markdown(":orange-badge[Demo]")

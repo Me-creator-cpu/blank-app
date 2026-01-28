@@ -532,11 +532,16 @@ def pg_srv_6():
             avg_df = df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count(), include_groups=False).to_frame('Level')
             avg_df
          with row4[1]:
-             avg_df=pd.DataFrame({'Type':[],'Level':[]})
+             #avg_df=pd.DataFrame({'Type':[],'Level':[]})
              #avg_df = df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count(), include_groups=False).to_frame('Level')
              avg_df = df_gr.set_index('Type').groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count(), include_groups=False).to_frame('Level')
              # build_main_chart(avg_df,"Level Average")
-             avg_df.Type[0]
+             st.bar_chart(
+                 raw_data,
+                 x="Type",
+                 y="Level",
+                 horizontal=True
+             )
 
 def func_avg():
     return None

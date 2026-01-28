@@ -679,6 +679,7 @@ def pg_test_tiles():
     total_cells_per_row_or_col = 5
     palidx=0
     source = df_srv[['Name', 'Type', 'Skill', 'Level','Stars']]
+    st.write(source)
     #titles=[f"Image #{str(i)}" for i in range(len(images))]
     for i in range(1, (total_cells_per_row_or_col)):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding

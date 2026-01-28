@@ -677,6 +677,9 @@ def pg_test_graph():
 
 def pg_test_tiles():
     total_cells_per_row_or_col = 5
+    for i in range(1, (total_cells_per_row_or_col+1)):
+        tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
+        globals()['cols' + str(i)] = st.columns(tlst)    
 
 def pg_options():
     st.header("Options", divider=True)
@@ -685,7 +688,7 @@ def pg_options():
     else:
         on_logo = st.toggle("Activate images", value=False)
     if on_logo:
-        st.write("Feature activated!")
+        st.write(f"Feature activated! ({on_logo})")
     with_logo(on_logo)
     st.session_state.bln_with_logo = on_logo
 

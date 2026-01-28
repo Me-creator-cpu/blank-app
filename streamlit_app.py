@@ -45,11 +45,16 @@ if 'data_loc' not in st.session_state:
 if 'data_srv' not in st.session_state:
     st.session_state['data_srv'] = None
 
-
+# ===========================================================
+#   Fichiers
+# ===========================================================
 PATH = 'data_files/PS_streamlit_US_v1.csv'
 PATH_COMP = 'data_files/PS_COMP.csv'
 PATH_EXP = 'data_files/PS_EXP.csv'
 
+# ===========================================================
+#   Variables => prévoir options modifications
+# ===========================================================
 level_bourg = 25
 level_min = 0
 level_max = float(level_bourg) * 10
@@ -58,7 +63,9 @@ max_mut_Energy=400000
 max_mut_Crystals=300
 max_mut_Pieces=975
 
-
+# ===========================================================
+#   Variables globales
+# ===========================================================
 data_menu = {
    "name":["Home",
            "Select file...",
@@ -647,7 +654,7 @@ def pg_test_graph():
    # st.write(df_selection)
    df_selection.display_df(
            width = "content",
-           column_config=column_config,
+           # column_config=column_config,
            hide_index=True
    )
 

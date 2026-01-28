@@ -9,7 +9,9 @@ from streamlit_dynamic_filters import DynamicFilters
 from yfiles_graphs_for_streamlit import StreamlitGraphWidget, Layout, LabelStyle, FontWeight, EdgeStyle
 from networkx import florentine_families_graph
 
+# ===========================================================
 # Modifier en conséquence le fichier: requirements.txt
+# ===========================================================
 # pip install streamlit-javascript
 # pip install pyyaml ua-parser user-agents
 # pip install streamlit-dynamic-filters
@@ -18,7 +20,9 @@ from networkx import florentine_families_graph
 # https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints
 # https://www.yworks.com/products/yfiles-graphs-for-streamlit
 
+# ===========================================================
 # App sur: https://fictional-zebra-5gjww6p9wqjwf466r.github.dev/
+# ===========================================================
 
 global uploaded_file
 global is_session_pc
@@ -652,9 +656,10 @@ def pg_test_graph():
    except:
       df_selection=source[['Name', 'Type', 'Skill', 'Level','Stars']]
    # st.write(df_selection)
-   df_selection.display_df(
+   df_tab = pd.DataFrame(df_selection)
+   df_tab.display_df(
            width = "content",
-           # column_config=column_config,
+           column_config=column_config,
            hide_index=True
    )
 

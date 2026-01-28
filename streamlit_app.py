@@ -669,10 +669,14 @@ def pg_test_tiles():
     total_cells_per_row_or_col = 5
 
 def pg_options():
-    st.header("Options", divider=True) 
-    with_logo = st.toggle("Activate images", value=with_logo)
-    if with_logo:
+    st.header("Options", divider=True)
+    if with_logo==True:
+        on_logo = st.toggle("Activate images", value=True)
+    else:
+        on_logo = st.toggle("Activate images", value=False)
+    if on_logo:
         st.write("Feature activated!")
+    with_logo = on_logo
 
 # ===========================================================
 #   Lancement

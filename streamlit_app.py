@@ -668,19 +668,26 @@ def pg_test_graph():
    except:
       df_selection=source[['Name', 'Type', 'Skill', 'Level','Stars']]
    # st.write(df_selection)
-   st.dataframe(
-        df_selection,
-        # height = "content",
-        width = "stretch",
-        selection_mode = "single-row",
-        column_config=column_config,
-        hide_index=True,
-   )
+   #st.dataframe(
+   #     df_selection,
+   #     # height = "content",
+   #     width = "stretch",
+   #     selection_mode = "single-row",
+   #     column_config=column_config,
+   #     hide_index=True,
+   #)
+   data_to_tiles(df_selection)
 
-def pg_test_tiles():
+def pg_test_tiles:
+    data_to_tiles()
+
+def data_to_tiles(df_data=None):
     total_cells_per_row_or_col = 5
     palidx=0
-    source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
+    if df_data is None:
+        source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
+    else:
+        source = df_data
     #st.write(source)
     for i in range(1, (total_cells_per_row_or_col)):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding

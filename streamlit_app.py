@@ -532,6 +532,9 @@ def pg_srv_6():
             #avg_df = df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count())
             avg_df = df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count(), include_groups=False)
             st.write(avg_df)
+         with row4[1]:
+             avg_df[['Type','Level']] = df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count(), include_groups=False)
+             build_main_chart(avg_df,"Level Average")
 
 
 

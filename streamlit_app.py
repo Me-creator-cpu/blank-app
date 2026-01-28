@@ -693,7 +693,10 @@ def data_to_tiles(df_data=None):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)
         for j in range(len(tlst)-1):
-            strContent=build_tile_v2(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
+            try:
+                strContent=build_tile_v2(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
+            except:
+                strContent=''
             globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
             palidx=palidx+1
             #globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")

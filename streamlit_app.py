@@ -369,14 +369,14 @@ def build_main_table(raw_data) -> pd.DataFrame:
         hide_index=True,
         )   
 
-def build_main_chart(raw_data,title_expander=None):
+def build_main_chart(raw_data,title_expander=None,x_axis=None,y_axis=None):
   if title_expander==None:
    title_expander="Chart"
   with st.expander(title_expander, expanded=True, width="stretch"):
     st.bar_chart(
        raw_data,
-       x="Type",
-       y="Level",
+       x=x_axis,
+       y=y_axis,
        horizontal=True
     )
 
@@ -454,7 +454,7 @@ def pg_loc_1():
       
 def pg_loc_2():
    try:
-      build_main_chart(st.session_state['data_loc'])
+      build_main_chart(st.session_state['data_loc'],None,'Type','Level')
    except:
       file_err()
 
@@ -470,7 +470,7 @@ def pg_srv_1():
 
 def pg_srv_2():
    if st.session_state['data_srv'] is not None:
-      build_main_chart(st.session_state['data_srv'])
+      build_main_chart(st.session_state['data_srv'],None,'Type','Level')
    
 def pg_srv_3():
    if st.session_state['data_srv'] is not None:
@@ -515,7 +515,7 @@ def pg_srv_6():
          with row1[0]:
             build_pivot_table(filtered_df,'Level','Type','Skill','Average level overview')
          with row1[1]:
-            build_main_chart(filtered_df,"Level total")
+            build_main_chart(filtered_df,"Level total",'Type','Level')
          with row2[0]:
             build_pivot_table(filtered_df,'Level','Skill', None, 'Average level per skill')
          with row2[1]:
@@ -532,15 +532,8 @@ def pg_srv_6():
             avg_df = df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count(), include_groups=False).to_frame('Level')
             avg_df
          with row4[1]:
-             #avg_df=pd.DataFrame({'Type':[],'Level':[]})
-             #avg_df = df_gr.groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count(), include_groups=False).to_frame('Level')
              avg_df = df_gr.set_index('Type').groupby('Type').apply(lambda x: x['Level'].sum() / x['Level'].count(), include_groups=True).to_frame('Level')
-             # build_main_chart(avg_df,"Level Average")
-             st.bar_chart(
-                 avg_df,
-                 y="Level",
-                 horizontal=True
-             )
+             build_main_chart(avg_df,"Level Average",None,'Level')
 
 def func_avg():
     return None

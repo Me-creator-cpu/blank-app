@@ -185,11 +185,11 @@ def config_df(raw_data):
 
 def with_logo(val=None):
     if val is None:
-        bln=bol(st.session_state.bln_with_logo)
+        bln=st.session_state.bln_with_logo
     else:
-        bln=bol(val)
-    st.session_state.bln_with_logo = bol(bln)
-    return bol(st.session_state.bln_with_logo)
+        bln=val
+    st.session_state.bln_with_logo = bln
+    return st.session_state.bln_with_logo
 
 def build_any_table(raw_data,title_expander) -> pd.DataFrame:
   df = raw_data.copy()

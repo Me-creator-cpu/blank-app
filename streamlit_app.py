@@ -665,7 +665,11 @@ def pg_test_graph():
         hide_index=True,
    )
 
+def pg_test_tiles():
+    total_cells_per_row_or_col = 5
 
+def pg_options():
+    st.header("Options", divider=True) 
 
 # ===========================================================
 #   Lancement
@@ -689,7 +693,7 @@ if uploaded_file is not None:
 #var_server=st.markdown(":violet-badge[:material/star: Favorite]")
 pages = {
    #  "Home" : [ st.Page("pages/home.py", title="Home", icon=":material/home:") ],
-    "Home" : [ st.Page(pg_home, title="Home", icon=":material/home:") ],
+    "Home":[ st.Page(pg_home, title="Home", icon=":material/home:") ],
     "Local data": [
         st.Page(pg_loc_0, title="Select file...", icon=option_menu[1]),
         st.Page(pg_loc_1, title="Table", icon=option_menu[2]),
@@ -704,11 +708,13 @@ pages = {
         st.Page(pg_srv_5, title="EXP", icon=option_menu[2]),
         st.Page(pg_srv_6, title="Dashboard", icon=option_menu[2]),
         st.Page(pg_download, title="Download Data", icon=option_menu[5]),
-        st.Page(pg_test_graph,title="Test",icon=option_menu[1]),
     ],
     "Tests":[
-       st.Page(pg_tests, title="Test01", icon=option_menu[2]),
+        st.Page(pg_tests, title="Test01", icon=option_menu[2]),
+        st.Page(pg_test_graph,title="Test",icon=option_menu[1]),
+        st.Page(pg_test_tiles,title="Test",icon=option_menu[2]),        
     ],
+    "Options":[st.Page(pg_options, title="Table", icon=option_menu[2])],
 }
 if str(st.session_state.is_session_pc) != 'True':
    pages.pop("Local data")

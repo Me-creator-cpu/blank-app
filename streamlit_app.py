@@ -682,13 +682,33 @@ def pg_test_tiles():
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)
         for j in range(len(tlst)):
-            globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
-        #build_tile()
+            strContent=build_tile_v2(str(i) + '-' + str(j))
+            globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
+            #globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
+        #build_tile()        build_tile_v2
         #st.markdown(":orange-badge[Demo]")
 
 
 def build_tile(oCell,strCaption="Caption Tile"):
     oCell=st.markdown(":orange-badge[{strCaption}]")
+
+def build_tile_v2(name):
+    strHtml='<span>'
+    strHtml=strHtml+'<table>'
+    strHtml=strHtml+'<tr>'
+    strHtml=strHtml+'    <td colspan=3>image</td>'
+    strHtml=strHtml+'    <td><b>{name}</b></td>'
+    strHtml=strHtml+'</tr>'
+    strHtml=strHtml+'<tr>'
+    strHtml=strHtml+'    <td>Cell'
+    strHtml=strHtml+'    </td>'
+    strHtml=strHtml+'</tr>'
+    strHtml=strHtml+'<tr>'
+    strHtml=strHtml+'    <td>Another Cell'
+    strHtml=strHtml+'    </td>'
+    strHtml=strHtml+'</tr>'
+    strHtml=strHtml+'</table></span>'
+    return strHtml
 
 def pg_options():
     st.header("Options", divider=True)

@@ -559,7 +559,7 @@ def pg_download() -> st.Page:
    # )
    
 def pg_tests():
-   st.page_link("pages/home.py", query_params={"diaplayLogo": str(st.session_state.is_session_pc) != 'True'})
+   st.page_link("pages/home.py", label="page Home", query_params={"diaplayLogo": str(st.session_state.is_session_pc) != 'True'})
 
 def is_in_medici_line(node_id: int) -> bool:
     """Return True if the node represents a Medici marriage line node"""
@@ -670,6 +670,9 @@ def pg_test_tiles():
 
 def pg_options():
     st.header("Options", divider=True) 
+    with_logo = st.toggle("Activate images")
+    if with_logo:
+        st.write("Feature activated!")
 
 # ===========================================================
 #   Lancement
@@ -710,9 +713,9 @@ pages = {
         st.Page(pg_download, title="Download Data", icon=option_menu[5]),
     ],
     "Tests":[
-        st.Page(pg_tests, title="Test01", icon=option_menu[2]),
-        st.Page(pg_test_graph,title="Test",icon=option_menu[1]),
-        st.Page(pg_test_tiles,title="Test",icon=option_menu[2]),        
+        st.Page(pg_tests, title="Test page", icon=option_menu[2]),
+        st.Page(pg_test_graph,title="Test graph",icon=option_menu[1]),
+        st.Page(pg_test_tiles,title="Test tiles",icon=option_menu[2]),        
     ],
     "Options":[st.Page(pg_options, title="Table", icon=option_menu[2])],
 }

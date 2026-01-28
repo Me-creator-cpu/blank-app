@@ -679,20 +679,12 @@ def pg_test_tiles():
     total_cells_per_row_or_col = 5
     palidx=0
     source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
-    st.write(source)
-    #titles=[f"Image #{str(i)}" for i in range(len(images))]
-
+    #st.write(source)
     for i in range(1, (total_cells_per_row_or_col)):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)
         for j in range(len(tlst)-1):
-            strName=source.Name[palidx]
-            strImage=source.URL[palidx]
-            intLevel=int(source.Level[palidx])
-            intStars=int(source.Stars[palidx])
-            strSkill=source.Skill[palidx]
-            strType=source.Type[palidx]
-            strContent=build_tile(strName+' ' + str(i) + '-' + str(j+1),strImage,intLevel,intStars,strSkill,strType)
+            strContent=build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
             globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
             palidx=palidx+1
             #globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
@@ -702,7 +694,7 @@ def build_tile(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""
     strHtml='<span>'
     strHtml=strHtml+'<table>'
     strHtml=strHtml+'<tr>'
-    strHtml=strHtml+'    <td rowspan=6><img src="'+image_url+'" width="80px"></td>'
+    strHtml=strHtml+'    <td rowspan=6><img src="'+image_url+'" width="1600px"></td>'
     strHtml=strHtml+'    <td colspan=2><b>'+name+'</b></td>'
     strHtml=strHtml+'</tr>'
     strHtml=strHtml+'<tr><td>Type</td><td>'+type+'</td></tr>'

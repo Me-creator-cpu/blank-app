@@ -678,7 +678,7 @@ def pg_test_graph():
    #)
    data_to_tiles(df_selection)
 
-def pg_test_tiles:
+def pg_test_tiles():
     data_to_tiles()
 
 def data_to_tiles(df_data=None):

@@ -700,7 +700,8 @@ def data_to_tiles(df_data=None):
         globals()['cols' + str(i)] = st.columns(tlst)
         for j in range(len(tlst)-1):
             try:
-                strContent=build_tile_v2(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
+                strContent=build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
+                #strContent=build_tile_v2(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
             except:
                 strContent=''
             globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
@@ -713,23 +714,13 @@ def build_tile_pic(sUrl=""):
     return st.image(sUrl, caption=None, width="content", clamp=False, channels="RGB", output_format="auto")
 
 def build_tile(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
-    cont = with st.container():
-    sImg=build_tile_pic(image_url)
-    
-    strHtml='<span>'
-    strHtml=strHtml+'<table>'
-    strHtml=strHtml+'<tr>'
-    strHtml=strHtml+'    <td rowspan=6><img height="200px" src="'+image_url+'"></td>'
-    strHtml=strHtml+'    <td rowspan=6>' & build_tile_pic(image_url) & '</td>'
-    strHtml=strHtml+'    <td colspan=2><b>'+name+'</b></td>'
-    strHtml=strHtml+'</tr>'
-    strHtml=strHtml+'<tr><td>Type</td><td>'+type+'</td></tr>'
-    strHtml=strHtml+'<tr><td>Skill</td><td>'+skill+'</td></tr>'
-    strHtml=strHtml+'<tr><td>Level</td><td>'+str(level)+'</td></tr>'
-    strHtml=strHtml+'<tr><td>Stars</td><td>'+str(stars)+'</td></tr>'
-    strHtml=strHtml+'<tr><td>Cell</td><td>Cell</td></tr>'
-    strHtml=strHtml+'</table></span>'
-    return strHtml
+    cont = st.container(border=True)
+    row0 = cont.build_tile_pic(image_url)
+    rowName = cont.write(name)
+    row1 = cont.columns(2,border=col_border, width="stretch")
+    row1[0] = cont.write('Type')
+    row1[0] = cont.write(type)
+    return cont
 
 def build_tile_v2(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
     strHtml='<span>'

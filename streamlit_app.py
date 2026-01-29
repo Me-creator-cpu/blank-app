@@ -687,38 +687,42 @@ def pg_test_graph():
 def pg_test_tiles():
     data_to_tiles()
 
-def data_to_tiles(df_data=None): #<========================================================================
-    palidx=0
+def data_to_tiles(df_data=None): #<================================================================================================================================================
     if df_data is None:
         source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
     else:
         source = df_data
     #st.write(source)
+    palidx=0
     trows= len(source['Name'])
     if trows > 5:
         total_cells_per_row_or_col = 5
     else:
         total_cells_per_row_or_col = trows
-    st.markdown(f"Nombre de colonnes: {total_cells_per_row_or_col}")
-    for i in range(1, (total_cells_per_row_or_col)):
-        tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
-        globals()['cols' + str(i)] = st.columns(tlst)
-        for j in range(len(tlst)-1):
-            try:
-                cont = globals()['cols' + str(i)][j].container(border=True)
-                with cont:
-                    build_tile_pic(source.URL[palidx])
-                    st.markdown(source.Name[palidx])
-                    col1, col2 = st.columns(2)
-                    #st.columns(2,border=col_border, width="stretch")
-                    col1.write('Type')
-                    col2.write(source.Type[palidx])
-                    #st.markdown(build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx]))
-            except:
-                strContent=''
-            #globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
-            palidx=palidx+1
-
+    st.markdown(f"total_cells_per_row_or_col: {total_cells_per_row_or_col}")
+    current_row=0
+    current_cell=0
+    row_cont = st.columns(total_cells_per_row_or_col-1)
+    for i in range(trows):
+        if current_cell == 0:
+            row_cont[current_row] = st.container(total_cells_per_row_or_col,border=True)
+        try:
+            with row_cont[current_row][current_cell]:
+                build_tile_pic(source.URL[palidx])
+                st.markdown(source.Name[palidx])
+                col1, col2 = st.columns(2)
+                #st.columns(2,border=col_border, width="stretch")
+                col1.write('Type')
+                col2.write(source.Type[palidx])
+                #st.markdown(build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx]))
+        except:
+            strContent=''
+        palidx=palidx+1
+        current_cell=current_cell+1
+        if current_cell > total_cells_per_row_or_col-1:
+            current_cell = 0
+            current_row = current_row + 1
+        
 def data_to_tiles_v1(df_data=None):
     total_cells_per_row_or_col = 5
     palidx=0

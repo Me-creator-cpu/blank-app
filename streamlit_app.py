@@ -708,11 +708,16 @@ def data_to_tiles(df_data=None):
             #globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
         #st.markdown(":orange-badge[Demo]")
 
+def build_tile_pic(sUrl=""):
+    #st.image(image, caption=None, width="content", use_column_width=None, clamp=False, channels="RGB", output_format="auto", *, use_container_width=None)
+    return st.image(sUrl, caption=None, width="content", clamp=False, channels="RGB", output_format="auto")
+
 def build_tile(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
     strHtml='<span>'
     strHtml=strHtml+'<table>'
     strHtml=strHtml+'<tr>'
     strHtml=strHtml+'    <td rowspan=6><img height="200px" src="'+image_url+'"></td>'
+    strHtml=strHtml+'    <td rowspan=6>' & build_tile_pic(image_url) & '</td>'
     strHtml=strHtml+'    <td colspan=2><b>'+name+'</b></td>'
     strHtml=strHtml+'</tr>'
     strHtml=strHtml+'<tr><td>Type</td><td>'+type+'</td></tr>'

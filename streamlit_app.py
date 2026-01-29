@@ -695,7 +695,10 @@ def data_to_tiles(df_data=None): #<=============================================
         source = df_data
     #st.write(source)
     trows= len(source['Name'])
-    if trows > 5 then total_cells_per_row_or_col = 5 else total_cells_per_row_or_col = trows
+    if trows > 5:
+        total_cells_per_row_or_col = 5
+    else:
+        total_cells_per_row_or_col = trows
     for i in range(1, (total_cells_per_row_or_col)):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)

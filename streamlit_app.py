@@ -687,7 +687,7 @@ def pg_test_graph():
 def pg_test_tiles():
     data_to_tiles()
 
-def data_to_tiles(df_data=None):
+def data_to_tiles(df_data=None): #<========================================================================
     total_cells_per_row_or_col = 5
     palidx=0
     if df_data is None:
@@ -700,21 +700,37 @@ def data_to_tiles(df_data=None):
         globals()['cols' + str(i)] = st.columns(tlst)
         for j in range(len(tlst)-1):
             try:
-                strContent=build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
-                #strContent=build_tile_v2(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
+                cont = globals()['cols' + str(i)][j].container(border=True)
+                strContent=build_tile(cont,source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
             except:
                 strContent=''
             globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
             palidx=palidx+1
-            #globals()['cols' + str(i)][j].markdown(":orange-badge[Demo]")
-        #st.markdown(":orange-badge[Demo]")
 
+def data_to_tiles_v1(df_data=None):
+    total_cells_per_row_or_col = 5
+    palidx=0
+    if df_data is None:
+        source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
+    else:
+        source = df_data
+    #st.write(source)
+    for i in range(1, (total_cells_per_row_or_col)):
+        tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
+        globals()['cols' + str(i)] = st.columns(tlst)
+        for j in range(len(tlst)-1):
+            try:
+                strContent=build_tile_v2(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
+            except:
+                strContent=''
+            globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
+            palidx=palidx+1
+            
 def build_tile_pic(sUrl=""):
     #st.image(image, caption=None, width="content", use_column_width=None, clamp=False, channels="RGB", output_format="auto", *, use_container_width=None)
     return st.image(sUrl, caption=None, width="content", clamp=False, channels="RGB", output_format="auto")
 
-def build_tile(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
-    cont = st.container(border=True)
+def build_tile(cont,name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
     row0 = cont.build_tile_pic(image_url)
     rowName = cont.write(name)
     row1 = cont.columns(2,border=col_border, width="stretch")

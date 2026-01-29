@@ -703,7 +703,12 @@ def data_to_tiles(df_data=None): #<=============================================
             try:
                 cont = globals()['cols' + str(i)][j].container(border=True)
                 with cont:
-                    st.markdown(long_text)
+                    build_tile_pic(source.URL[palidx])
+                    st.markdown(name)
+                    col1, col2 = st.columns(2)
+                    #st.columns(2,border=col_border, width="stretch")
+                    col1.write('Type')
+                    col2.write(source.Type[palidx])
                     #st.markdown(build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx]))
             except:
                 strContent=''

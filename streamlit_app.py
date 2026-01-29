@@ -699,6 +699,7 @@ def data_to_tiles(df_data=None): #<=============================================
         total_cells_per_row_or_col = 5
     else:
         total_cells_per_row_or_col = trows
+    st.markdown(f"Nombre de colonnes: {total_cells_per_row_or_col}")
     for i in range(1, (total_cells_per_row_or_col)):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)

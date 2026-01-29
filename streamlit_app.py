@@ -1,4 +1,4 @@
-import streamlit as st
+eimport streamlit as st
 import pandas as pd
 import calendar
 import sys
@@ -378,7 +378,6 @@ def build_main_chart(raw_data,title_expander=None,x_axis=None,y_axis=None):
         x=x_axis,
         y=y_axis,
         horizontal=True,
-        color=[theme.blueBackgroundColor]
     )
 
 def build_pivot_table(raw_data,val_value: str, val_index: str, val_columns: str,title_expander=None):

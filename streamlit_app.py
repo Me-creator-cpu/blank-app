@@ -699,7 +699,7 @@ def data_to_tiles(df_data=None): #<=============================================
         total_cells_per_row_or_col = 5
     else:
         total_cells_per_row_or_col = trows
-    if total_cells_per_row_or_col = 0:
+    if total_cells_per_row_or_col == 0:
         total_cells_per_row_or_col = 3
         
     st.markdown(f"total_cells_per_row_or_col: {total_cells_per_row_or_col}")

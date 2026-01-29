@@ -695,13 +695,16 @@ def data_to_tiles(df_data=None): #<=============================================
     else:
         source = df_data
     #st.write(source)
+    long_text = "Lorem ipsum. " * 1000
     for i in range(1, (total_cells_per_row_or_col)):
         tlst = ([1] * total_cells_per_row_or_col) + [2] # 2 = rt side padding
         globals()['cols' + str(i)] = st.columns(tlst)
         for j in range(len(tlst)-1):
             try:
                 cont = globals()['cols' + str(i)][j].container(border=True)
-                cont = build_tile(cont,source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx])
+                with cont:
+                    st.markdown(long_text)
+                    st.markdown(build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx]))
             except:
                 strContent=''
             #globals()['cols' + str(i)][j].markdown(strContent, unsafe_allow_html=True)
@@ -730,7 +733,8 @@ def build_tile_pic(sUrl=""):
     #st.image(image, caption=None, width="content", use_column_width=None, clamp=False, channels="RGB", output_format="auto", *, use_container_width=None)
     return st.image(sUrl, caption=None, width="content", clamp=False, channels="RGB", output_format="auto")
 
-def build_tile(cont,name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
+def build_tile(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
+    cont = st.container(border=True)
     row0 = cont.build_tile_pic(image_url)
     rowName = cont.write(name)
     row1 = cont.columns(2,border=col_border, width="stretch")

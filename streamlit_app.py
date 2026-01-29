@@ -700,6 +700,8 @@ def data_to_tiles(df_data=None): #<=============================================
     else:
         total_cells_per_row_or_col = trows
     st.markdown(f"total_cells_per_row_or_col: {total_cells_per_row_or_col}")
+    st.markdown(f"trows: {trows}")
+
     current_row=0
     current_cell=0
     row_cont = st.columns(total_cells_per_row_or_col-1)

@@ -699,6 +699,9 @@ def data_to_tiles(df_data=None): #<=============================================
         total_cells_per_row_or_col = 5
     else:
         total_cells_per_row_or_col = trows
+    if total_cells_per_row_or_col = 0:
+        total_cells_per_row_or_col = 3
+        
     st.markdown(f"total_cells_per_row_or_col: {total_cells_per_row_or_col}")
     st.markdown(f"trows: {trows}")
 
@@ -707,7 +710,7 @@ def data_to_tiles(df_data=None): #<=============================================
     row_cont = st.columns(total_cells_per_row_or_col-1)
     for i in range(trows):
         if current_cell == 0:
-            row_cont[current_row] = st.container(total_cells_per_row_or_col,border=True)
+            row_cont[current_row] = st.container(total_cells_per_row_or_col , border=True)
         try:
             with row_cont[current_row][current_cell]:
                 build_tile_pic(source.URL[palidx])

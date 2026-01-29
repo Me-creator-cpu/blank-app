@@ -732,7 +732,7 @@ def build_tile_v2(name="Caption Tile",image_url="",level=1,stars=0,skill="",type
     strHtml='<span>'
     strHtml=strHtml+'<table>'
     strHtml=strHtml+'<tr><td colspan=2><img height="200px" src="'+image_url+'"></td></tr>'
-        strHtml=strHtml+'    <tr><td colspan=2>' & build_tile_pic(image_url) & '</td></tr>'
+    strHtml=strHtml+'<tr><td colspan=2>' & build_tile_pic(image_url) & '</td></tr>'
     strHtml=strHtml+'<tr><td colspan=2><b>'+name+'</b></td></tr>'
     strHtml=strHtml+'<tr><td>Type</td><td>'+type+'</td></tr>'
     strHtml=strHtml+'<tr><td>Skill</td><td>'+skill+'</td></tr>'

@@ -630,25 +630,19 @@ def pg_test_tiles():
     st.title("Data-driven visualization")
     medici_line = ["Acciaiuoli", "Medici", "Albizzi", "Guadagni", "Lamberteschi"]
     graph = StreamlitGraphWidget.from_graph(
-       # import NetworkX sample graph
-       graph = florentine_families_graph(),
-       # color Medici marriage line
-       node_color_mapping = lambda node: "#FF5722" if node["properties"]["label"] in medici_line else "#BDBDBD",
-       # increase node sizes of Medici marriage line
-       node_size_mapping = lambda node: (85, 85) if node["properties"]["label"] in medici_line else (55, 55),
-       # apply a heat mapping to the Medici marriage line
-       heat_mapping = lambda item: 0.5 if item["properties"]["label"] in medici_line else 0.0,
-       # highlight edges between Medici marriage line nodes
-       edge_styles_mapping = lambda edge: EdgeStyle(
-          color = "#FF0000" if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else "#BDBDBD",
-          thickness = 6 if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else 1
-       ),
-       # emphasize Medici marriage line node labels
-       node_label_mapping = lambda n: LabelStyle(
-          text = n["properties"]["label"],
-          font_weight = FontWeight.BOLD if n["properties"]["label"] in medici_line else FontWeight.NORMAL,
-          font_size = 16 if n["properties"]["label"] in medici_line else 12
-       )
+        graph = florentine_families_graph(),    # import NetworkX sample graph
+        node_color_mapping = lambda node: "#FF5722" if node["properties"]["label"] in medici_line else "#BDBDBD",     # color Medici marriage line
+        node_size_mapping = lambda node: (85, 85) if node["properties"]["label"] in medici_line else (55, 55),    # increase node sizes of Medici marriage line
+        heat_mapping = lambda item: 0.5 if item["properties"]["label"] in medici_line else 0.0,    # apply a heat mapping to the Medici marriage line
+        edge_styles_mapping = lambda edge: EdgeStyle(    # highlight edges between Medici marriage line nodes
+            color = "#FF0000" if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else "#BDBDBD",
+            thickness = 6 if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else 1
+        ),
+        node_label_mapping = lambda n: LabelStyle(    # emphasize Medici marriage line node labels
+            text = n["properties"]["label"],
+            font_weight = FontWeight.BOLD if n["properties"]["label"] in medici_line else FontWeight.NORMAL,
+            font_size = 16 if n["properties"]["label"] in medici_line else 12
+        )
     )
 
     # render the component
@@ -660,15 +654,11 @@ def pg_test_tiles():
    # if st.session_state['data_exp'] is not None:
    #    df = st.session_state['data_exp'][['Lvl from', 'Cost']]
    #    st.line_chart(df['Cost'])    
-   tab1, tab2 = st.tabs(["Streamlit theme (default)", "Vega-Lite native theme"])
-   with tab1:
-      st.vega_lite_chart(
-         source, chart, theme="streamlit", width="stretch"
-      )
-   with tab2:
-      event = st.vega_lite_chart(
-         source, chart, theme=None, on_select="rerun", width="stretch"
-      )
+   #tab1, tab2 = st.tabs(["Streamlit theme (default)", "Vega-Lite native theme"])
+   #with tab1:
+   #    st.vega_lite_chart(source, chart, theme="streamlit", width="stretch")
+   #with tab2:
+   #    event = st.vega_lite_chart(source, chart, theme=None, on_select="rerun", width="stretch")
 
 def data_to_tiles(df_data=None): #<================================================================================================================================================
     source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]

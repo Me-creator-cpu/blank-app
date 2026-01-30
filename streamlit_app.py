@@ -62,7 +62,7 @@ PATH_EXP = 'data_files/PS_EXP.csv'
 # ===========================================================
 #   Variables => prévoir options modifications
 # ===========================================================
-level_bourg = 25
+level_bourg = 26
 level_min = 0
 level_max = float(level_bourg) * 10
 
@@ -694,34 +694,36 @@ def data_to_tiles(df_data=None): #<=============================================
             source = df_srv[df_srv['Name'].isin(df_data['Name'])] 
     source.reset_index(drop=True)
     trows= len(source['Name'])
+    nb_cells_per_row = 0
     if trows > 5:
-        total_cells_per_row_or_col = 5
+        nb_cells_per_row = 5
     else:
-        total_cells_per_row_or_col = trows
-    if total_cells_per_row_or_col == 0:
-        total_cells_per_row_or_col = 3
+        nb_cells_per_row = trows
+    if nb_cells_per_row == 0:
+        nb_cells_per_row = 3
         
-    #st.markdown(f"total_cells_per_row_or_col: {total_cells_per_row_or_col}")
+    #st.markdown(f"nb_cells_per_row: {nb_cells_per_row}")
     #st.markdown(f"trows: {trows}")
-    #st.markdown(f"cards lines: {trows/total_cells_per_row_or_col}")
-    #st.markdown(f"cards lines int: {int(trows/total_cells_per_row_or_col)}")
+    #st.markdown(f"cards lines: {trows/nb_cells_per_row}")
+    #st.markdown(f"cards lines int: {int(trows/nb_cells_per_row)}")
 
     current_row=0
     current_cell=0
-    row_cont = math.ceil(trows/total_cells_per_row_or_col) #st.columns(total_cells_per_row_or_col-1)
+    row_cont = math.ceil(trows/nb_cells_per_row) 
+    #st.columns(nb_cells_per_row-1)
     for i, source_row in source.iterrows():
         try:
             row_cont[current_row].empty()
         except:
             strContent=''
         if current_cell == 0:
-            row_cont[current_row] = st.columns(total_cells_per_row_or_col , border=True)
+            row_cont[current_row] = st.columns(nb_cells_per_row , border=True)
         try:
             record = source[(source['Name'] == str(i))]
             with row_cont[current_row][current_cell]:
                 #st.markdown(f"current_row:{current_row}")
                 #st.markdown(f"current_cell:{current_cell}")
-                st.container(horizontal_alignment='center',gab=None).build_tile_pic(source_row['URL'])
+                st.container(horizontal_alignment='center',gap=None).build_tile_pic(source_row['URL'])
                 st.markdown(source_row['Name'])
                 col1, col2 = st.columns(2)
                 col1.write('Type')
@@ -729,7 +731,7 @@ def data_to_tiles(df_data=None): #<=============================================
         except:
             strContent=''
         current_cell=current_cell+1
-        if current_cell > total_cells_per_row_or_col-1:
+        if current_cell > nb_cells_per_row-1:
             current_cell = 0
             current_row = current_row + 1
         

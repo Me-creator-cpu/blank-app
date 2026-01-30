@@ -696,9 +696,6 @@ def data_to_tiles(df_data=None): #<=============================================
     #else:
     #    source = df_data
     source.reset_index(drop=True)
-    row = next(source.iterrows())[1]
-    row
-    st.write(source)
     trows= len(source['Name'])
     if trows > 5:
         total_cells_per_row_or_col = 5
@@ -716,7 +713,8 @@ def data_to_tiles(df_data=None): #<=============================================
     current_cell=0
     palidx=0
     row_cont = st.columns(total_cells_per_row_or_col-1)
-    for i in source['Name'].unique(): #range(trows):
+    #for i in source['Name'].unique(): #range(trows):
+    for i, source_row in source.iterrows():
         try:
             row_cont[current_row].empty()
         except:
@@ -725,12 +723,11 @@ def data_to_tiles(df_data=None): #<=============================================
             row_cont[current_row] = st.columns(total_cells_per_row_or_col , border=True)
         try:
             #df_srv[column].unique()
-            record= source[(source['Name'] == str(i))]
+            record = source[(source['Name'] == str(i))]
             with row_cont[current_row][current_cell]:
                 st.markdown(f"current_row:{current_row}")
                 st.markdown(f"current_cell:{current_cell}")
-                st.markdown(record(0)['Name'])
-                st.write('record is:',record(0))
+                st.markdown(source_row['Name'])
                 if 1 == 2:
                     #build_tile_pic(source.URL[palidx])
                     st.markdown(source.Name[palidx])

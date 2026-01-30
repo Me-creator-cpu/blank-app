@@ -716,7 +716,7 @@ def data_to_tiles(df_data=None): #<=============================================
     current_cell=0
     palidx=0
     row_cont = st.columns(total_cells_per_row_or_col-1)
-    for i in range(trows):
+    for i in source['Name'].unique(): #range(trows):
         try:
             row_cont[current_row].empty()
         except:
@@ -725,7 +725,6 @@ def data_to_tiles(df_data=None): #<=============================================
             row_cont[current_row] = st.columns(total_cells_per_row_or_col , border=True)
         try:
             #df_srv[column].unique()
-            record=source(palidx)
             with row_cont[current_row][current_cell]:
                 st.markdown(f"current_row:{current_row}")
                 st.markdown(f"current_cell:{current_cell}")

@@ -729,8 +729,8 @@ def data_to_tiles(df_data=None): #<=============================================
             with row_cont[current_row][current_cell]:
                 st.markdown(f"current_row:{current_row}")
                 st.markdown(f"current_cell:{current_cell}")
-                st.markdown(record.Name(0))
-                st.write('record is:',record)
+                st.markdown(record(0)['Name'])
+                st.write('record is:',record(0))
                 if 1 == 2:
                     #build_tile_pic(source.URL[palidx])
                     st.markdown(source.Name[palidx])

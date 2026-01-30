@@ -726,18 +726,19 @@ def data_to_tiles(df_data=None): #<=============================================
         try:
             #df_srv[column].unique()
             record=source(palidx)
-            record
             with row_cont[current_row][current_cell]:
                 st.markdown(f"current_row:{current_row}")
                 st.markdown(f"current_cell:{current_cell}")
                 st.markdown(source.Name[palidx])
-                #build_tile_pic(source.URL[palidx])
-                st.markdown(source.Name[palidx])
-                col1, col2 = st.columns(2)
-                #st.columns(2,border=col_border, width="stretch")
-                col1.write('Type')
-                col2.write(source.Type[palidx])
-                #st.markdown(build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx]))
+                st.markdown(source(palidx))
+                if 1 == 2:
+                    #build_tile_pic(source.URL[palidx])
+                    st.markdown(source.Name[palidx])
+                    col1, col2 = st.columns(2)
+                    #st.columns(2,border=col_border, width="stretch")
+                    col1.write('Type')
+                    col2.write(source.Type[palidx])
+                    #st.markdown(build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx]))
         except:
             strContent=''
         palidx=palidx+1

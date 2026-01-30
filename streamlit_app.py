@@ -692,7 +692,7 @@ def data_to_tiles(df_data=None): #<=============================================
         source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
     else:
         source = df_data
-    #st.write(source)
+    st.write(source)
     trows= len(source['Name'])
     if trows > 5:
         total_cells_per_row_or_col = 5

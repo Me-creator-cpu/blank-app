@@ -493,7 +493,6 @@ def pg_srv_5():
 
 def pg_srv_6():
    col_border=False 
-   #with_logo(False)
    column='Type'
    if with_logo==True:
       row0 = st.columns([1, 3, 1], border=col_border)
@@ -786,7 +785,7 @@ data_comp = read_csv(PATH_COMP)
 data_exp = read_csv(PATH_EXP)
 
 init()
-with_logo(True)
+with_logo(False)
 if df_srv is not None:
    data_srv = df_srv
    st.session_state['data_srv'] = df_srv

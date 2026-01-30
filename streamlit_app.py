@@ -693,7 +693,6 @@ def data_to_tiles(df_data=None): #<=============================================
     else:
         source = df_data
     #st.write(source)
-    palidx=0
     trows= len(source['Name'])
     if trows > 5:
         total_cells_per_row_or_col = 5
@@ -704,9 +703,12 @@ def data_to_tiles(df_data=None): #<=============================================
         
     st.markdown(f"total_cells_per_row_or_col: {total_cells_per_row_or_col}")
     st.markdown(f"trows: {trows}")
+    st.markdown(f"cards lines: {trows/total_cells_per_row_or_col}")
+    st.markdown(f"cards lines int: {int(trows/total_cells_per_row_or_col)}")
 
     current_row=0
     current_cell=0
+    palidx=0
     row_cont = st.columns(total_cells_per_row_or_col-1)
     for i in range(trows):
         try:

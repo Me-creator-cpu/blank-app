@@ -584,7 +584,7 @@ def is_in_medici_line(node_id: int) -> bool:
 
 def pg_test_graph():
    st.set_page_config(
-      page_title="yFiles Graphs for Streamlit",
+      #page_title="yFiles Graphs for Streamlit",
       layout="wide",
    )
     

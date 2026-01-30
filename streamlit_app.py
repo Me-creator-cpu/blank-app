@@ -729,7 +729,7 @@ def data_to_tiles(df_data=None): #<=============================================
                 st.markdown(f"current_row:{current_row}")
                 st.markdown(f"current_cell:{current_cell}")
                 st.markdown(source.Name[palidx])
-                st.write('source is:',source(palidx))
+                st.write('source is:',source(i))
                 if 1 == 2:
                     #build_tile_pic(source.URL[palidx])
                     st.markdown(source.Name[palidx])

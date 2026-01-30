@@ -567,13 +567,6 @@ def pg_download() -> st.Page:
     mime="text/csv",
     icon=":material/download:",
    )
-   # st.download_button(
-   #  label="Download CSV",
-   #  data=df_srv.to_csv().encode("utf-8"),
-   #  file_name="data.csv",
-   #  mime="text/csv",
-   #  icon=":material/download:",
-   # )
    
 def pg_tests():
    st.page_link("pages/home.py", label="page Home", query_params={"diaplayLogo": str(st.session_state.is_session_pc) != 'True'})
@@ -594,41 +587,7 @@ def pg_test_graph():
       page_title="yFiles Graphs for Streamlit",
       layout="wide",
    )
-   # st.markdown("---")
-   # st.title("Data-driven visualization")
-   # medici_line = ["Acciaiuoli", "Medici", "Albizzi", "Guadagni", "Lamberteschi"]
-   # graph = StreamlitGraphWidget.from_graph(
-   #    # import NetworkX sample graph
-   #    graph = florentine_families_graph(),
-   #    # color Medici marriage line
-   #    node_color_mapping = lambda node: "#FF5722" if node["properties"]["label"] in medici_line else "#BDBDBD",
-   #    # increase node sizes of Medici marriage line
-   #    node_size_mapping = lambda node: (85, 85) if node["properties"]["label"] in medici_line else (55, 55),
-   #    # apply a heat mapping to the Medici marriage line
-   #    heat_mapping = lambda item: 0.5 if item["properties"]["label"] in medici_line else 0.0,
-   #    # highlight edges between Medici marriage line nodes
-   #    edge_styles_mapping = lambda edge: EdgeStyle(
-   #       color = "#FF0000" if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else "#BDBDBD",
-   #       thickness = 6 if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else 1
-   #    ),
-   #    # emphasize Medici marriage line node labels
-   #    node_label_mapping = lambda n: LabelStyle(
-   #       text = n["properties"]["label"],
-   #       font_weight = FontWeight.BOLD if n["properties"]["label"] in medici_line else FontWeight.NORMAL,
-   #       font_size = 16 if n["properties"]["label"] in medici_line else 12
-   #    )
-   # )
-
-   # # render the component
-   # graph.show(graph_layout=Layout.HIERARCHIC)
-
-   # st.markdown("---")
-
-   #Graphe Costs
-   # if st.session_state['data_exp'] is not None:
-   #    df = st.session_state['data_exp'][['Lvl from', 'Cost']]
-   #    st.line_chart(df['Cost'])
-
+    
    #Graphe per type
    chart = {
     "mark": "point",
@@ -650,21 +609,11 @@ def pg_test_graph():
         "shape": {"field": "Type", "type": "nominal"},
     },
    }
+    
    column='Type'
-   # source = df_srv
    options = st.multiselect(f"Filter values for {column}:", df_srv[column].unique(), default=list(df_srv[column].unique()))
    source = df_srv[df_srv[column].isin(options)]   
-   tab1, tab2 = st.tabs(["Streamlit theme (default)", "Vega-Lite native theme"])
-   with tab1:
-      st.vega_lite_chart(
-         #source, chart, theme="streamlit", use_container_width=True
-         source, chart, theme="streamlit", width="stretch"
-      )
-   with tab2:
-      event = st.vega_lite_chart(
-         #source, chart, theme=None, use_container_width=True, on_select="rerun"
-         source, chart, theme=None, on_select="rerun", width="stretch"
-      )
+   st.vega_lite_chart(source, chart, theme="streamlit", width="stretch")       
    try:
       df_level = event.selection.interval_selection.Level
       df_stars = event.selection.interval_selection.Stars
@@ -674,19 +623,52 @@ def pg_test_graph():
       df_selection = df_selection[(df_selection['Stars'] >= min_val_stars) & (df_selection['Stars'] <= max_val_stars)]
    except:
       df_selection=source[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
-   # st.write(df_selection)
-   #st.dataframe(
-   #     df_selection,
-   #     # height = "content",
-   #     width = "stretch",
-   #     selection_mode = "single-row",
-   #     column_config=column_config,
-   #     hide_index=True,
-   #)
    data_to_tiles(df_selection)
 
 def pg_test_tiles():
-    data_to_tiles()
+    st.markdown("---")
+    st.title("Data-driven visualization")
+    medici_line = ["Acciaiuoli", "Medici", "Albizzi", "Guadagni", "Lamberteschi"]
+    graph = StreamlitGraphWidget.from_graph(
+       # import NetworkX sample graph
+       graph = florentine_families_graph(),
+       # color Medici marriage line
+       node_color_mapping = lambda node: "#FF5722" if node["properties"]["label"] in medici_line else "#BDBDBD",
+       # increase node sizes of Medici marriage line
+       node_size_mapping = lambda node: (85, 85) if node["properties"]["label"] in medici_line else (55, 55),
+       # apply a heat mapping to the Medici marriage line
+       heat_mapping = lambda item: 0.5 if item["properties"]["label"] in medici_line else 0.0,
+       # highlight edges between Medici marriage line nodes
+       edge_styles_mapping = lambda edge: EdgeStyle(
+          color = "#FF0000" if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else "#BDBDBD",
+          thickness = 6 if is_in_medici_line(edge["start"]) and is_in_medici_line(edge["end"]) else 1
+       ),
+       # emphasize Medici marriage line node labels
+       node_label_mapping = lambda n: LabelStyle(
+          text = n["properties"]["label"],
+          font_weight = FontWeight.BOLD if n["properties"]["label"] in medici_line else FontWeight.NORMAL,
+          font_size = 16 if n["properties"]["label"] in medici_line else 12
+       )
+    )
+
+    # render the component
+    graph.show(graph_layout=Layout.HIERARCHIC)
+
+    st.markdown("---")
+
+   #Graphe Costs
+   # if st.session_state['data_exp'] is not None:
+   #    df = st.session_state['data_exp'][['Lvl from', 'Cost']]
+   #    st.line_chart(df['Cost'])    
+   tab1, tab2 = st.tabs(["Streamlit theme (default)", "Vega-Lite native theme"])
+   with tab1:
+      st.vega_lite_chart(
+         source, chart, theme="streamlit", width="stretch"
+      )
+   with tab2:
+      event = st.vega_lite_chart(
+         source, chart, theme=None, on_select="rerun", width="stretch"
+      )
 
 def data_to_tiles(df_data=None): #<================================================================================================================================================
     source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]

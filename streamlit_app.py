@@ -709,7 +709,8 @@ def data_to_tiles(df_data=None): #<=============================================
 
     current_row=0
     current_cell=0
-    row_cont = math.ceil(trows/nb_cells_per_row) 
+    nb_rows=int(math.ceil(trows/nb_cells_per_row))
+    row_cont = st.columns(nb_rows)
     #st.columns(nb_cells_per_row-1)
     for i, source_row in source.iterrows():
         try:
@@ -717,7 +718,7 @@ def data_to_tiles(df_data=None): #<=============================================
         except:
             strContent=''
         if current_cell == 0:
-            row_cont[current_row] = st.columns(int(nb_cells_per_row), border=True)
+            row_cont[current_row] = st.columns(nb_cells_per_row, border=True)
         try:
             record = source[(source['Name'] == str(i))]
             with row_cont[current_row][current_cell]:

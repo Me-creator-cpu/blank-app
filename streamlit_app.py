@@ -612,7 +612,8 @@ def pg_test_graph():
     
    column='Type'
    options = st.multiselect(f"Filter values for {column}:", df_srv[column].unique(), default=list(df_srv[column].unique()))
-   source = df_srv[df_srv[column].isin(options) & (df_srv['Level'] >= 0)]
+   source = df_srv[df_srv[column].isin(options)]
+   source = source.query("Level > 0")
    st.vega_lite_chart(source, chart, theme="streamlit", width="stretch")       
    try:
       df_level = event.selection.interval_selection.Level

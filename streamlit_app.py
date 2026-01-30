@@ -704,16 +704,15 @@ def data_to_tiles(df_data=None): #<=============================================
     if total_cells_per_row_or_col == 0:
         total_cells_per_row_or_col = 3
         
-    st.markdown(f"total_cells_per_row_or_col: {total_cells_per_row_or_col}")
-    st.markdown(f"trows: {trows}")
-    st.markdown(f"cards lines: {trows/total_cells_per_row_or_col}")
-    st.markdown(f"cards lines int: {int(trows/total_cells_per_row_or_col)}")
+    #st.markdown(f"total_cells_per_row_or_col: {total_cells_per_row_or_col}")
+    #st.markdown(f"trows: {trows}")
+    #st.markdown(f"cards lines: {trows/total_cells_per_row_or_col}")
+    #st.markdown(f"cards lines int: {int(trows/total_cells_per_row_or_col)}")
 
     current_row=0
     current_cell=0
     palidx=0
     row_cont = st.columns(total_cells_per_row_or_col-1)
-    #for i in source['Name'].unique(): #range(trows):
     for i, source_row in source.iterrows():
         try:
             row_cont[current_row].empty()
@@ -725,9 +724,13 @@ def data_to_tiles(df_data=None): #<=============================================
             #df_srv[column].unique()
             record = source[(source['Name'] == str(i))]
             with row_cont[current_row][current_cell]:
-                st.markdown(f"current_row:{current_row}")
-                st.markdown(f"current_cell:{current_cell}")
+                #st.markdown(f"current_row:{current_row}")
+                #st.markdown(f"current_cell:{current_cell}")
+                build_tile_pic(source_row['URL'])
                 st.markdown(source_row['Name'])
+                col1, col2 = st.columns(2)
+                col1.write('Type')
+                col2.write(source_row['Type'])
                 if 1 == 2:
                     #build_tile_pic(source.URL[palidx])
                     st.markdown(source.Name[palidx])

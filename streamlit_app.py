@@ -699,6 +699,7 @@ def data_to_tiles(df_data=None): #<=============================================
                 col1, col2 = st.columns(2)
                 col1.write('Type')
                 col2.write(source_row['Type'])
+                st.write(source_row(0))
         except:
             strContent=''
         current_cell=current_cell+1

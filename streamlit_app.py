@@ -721,7 +721,7 @@ def data_to_tiles(df_data=None): #<=============================================
                 #st.markdown(f"current_cell:{current_cell}")
                 #st.container(horizontal_alignment='center',gap=None).build_tile_pic(source_row['URL'])
                 #build_tile_pic(source_row['URL'])
-                st.markdown(f"<img height='200px' src='"+source_row['URL']+"'>", unsafe_allow_html=True)
+                st.markdown(f"<img height='80px' src='"+source_row['URL']+"'>", unsafe_allow_html=True)
                 st.markdown(source_row['Name'])
                 col1, col2 = st.columns(2)
                 col1.write('Type')

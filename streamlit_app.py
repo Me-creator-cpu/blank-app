@@ -719,6 +719,9 @@ def data_to_tiles(df_data=None): #<=============================================
             row_cont[current_row] = st.columns(total_cells_per_row_or_col , border=True)
         try:
             with row_cont[current_row][current_cell]:
+                st.markdown(f"current_row:{current_row}")
+                st.markdown(f"current_cell:{current_cell}")
+                st.markdown(source.Name[palidx])
                 build_tile_pic(source.URL[palidx])
                 st.markdown(source.Name[palidx])
                 col1, col2 = st.columns(2)

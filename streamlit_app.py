@@ -709,12 +709,12 @@ def data_to_tiles(df_data=None): #<=============================================
     current_cell=0
     row_cont = st.columns(total_cells_per_row_or_col-1)
     for i in range(trows):
-        if current_cell == 0:
-            row_cont[current_row] = st.columns(total_cells_per_row_or_col , border=True)
         try:
             row_cont[current_row].empty()
         except:
             strContent=''
+        if current_cell == 0:
+            row_cont[current_row] = st.columns(total_cells_per_row_or_col , border=True)
         try:
             with row_cont[current_row][current_cell]:
                 build_tile_pic(source.URL[palidx])

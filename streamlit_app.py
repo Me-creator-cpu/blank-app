@@ -612,7 +612,7 @@ def pg_test_graph():
     
    column='Type'
    options = st.multiselect(f"Filter values for {column}:", df_srv[column].unique(), default=list(df_srv[column].unique()))
-   source = df_srv[df_srv[column].isin(options)]   
+   source = df_srv[df_srv[column].isin(options) & (df_srv['Level'] >= 0)]
    st.vega_lite_chart(source, chart, theme="streamlit", width="stretch")       
    try:
       df_level = event.selection.interval_selection.Level
@@ -663,7 +663,7 @@ def pg_test_tiles():
 def data_to_tiles(df_data=None): #<================================================================================================================================================
     source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
     if df_data is not None:
-            source = df_srv[df_srv['Name'].isin(df_data['Name'])] 
+        source = df_srv[df_srv['Name'].isin(df_data['Name'])] 
     source.reset_index(drop=True)
     trows= len(source['Name'])
     nb_cells_per_row = 0
@@ -683,7 +683,7 @@ def data_to_tiles(df_data=None): #<=============================================
     current_cell=0
     nb_rows=int(math.ceil(trows/nb_cells_per_row))
     row_cont = st.columns(nb_rows)
-    #st.columns(nb_cells_per_row-1)
+
     for i, source_row in source.iterrows():
         if current_cell == 0:
             row_cont[current_row] = st.columns(nb_cells_per_row, border=True)

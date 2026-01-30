@@ -786,7 +786,7 @@ data_comp = read_csv(PATH_COMP)
 data_exp = read_csv(PATH_EXP)
 
 init()
-with_logo(False)
+with_logo(True)
 if df_srv is not None:
    data_srv = df_srv
    st.session_state['data_srv'] = df_srv

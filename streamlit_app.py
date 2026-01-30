@@ -717,7 +717,7 @@ def data_to_tiles(df_data=None): #<=============================================
         except:
             strContent=''
         if current_cell == 0:
-            row_cont[current_row] = st.columns(nb_cells_per_row , border=True)
+            row_cont[current_row] = st.columns(int(nb_cells_per_row), border=True)
         try:
             record = source[(source['Name'] == str(i))]
             with row_cont[current_row][current_cell]:

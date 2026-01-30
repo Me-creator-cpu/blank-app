@@ -638,11 +638,11 @@ def pg_test_graph():
     ],
     "encoding": {
         "x": {
-            "field": "Stars",
+            "field": "Level",
             "type": "quantitative",
         },
         "y": {
-            "field": "Level",
+            "field": "Stars",
             "type": "quantitative",
         },
         "size": {"field": "Achievement", "type": "quantitative"},
@@ -754,7 +754,7 @@ def data_to_tiles_v1(df_data=None):
             
 def build_tile_pic(sUrl=""):
     #st.image(image, caption=None, width="content", use_column_width=None, clamp=False, channels="RGB", output_format="auto", *, use_container_width=None)
-    return st.image(sUrl, caption=None, width="content", clamp=False, channels="RGB", output_format="auto")
+    return st.image(sUrl, caption=None, width="stretch", clamp=False, channels="RGB", output_format="auto")
 
 def build_tile(name="Caption Tile",image_url="",level=1,stars=0,skill="",type=""):
     cont = st.container(border=True)

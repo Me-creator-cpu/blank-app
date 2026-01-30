@@ -696,7 +696,8 @@ def data_to_tiles(df_data=None): #<=============================================
     #else:
     #    source = df_data
     source.reset_index(drop=True)
-    source
+    row = next(source.iterrows())[1]
+    row
     st.write(source)
     trows= len(source['Name'])
     if trows > 5:

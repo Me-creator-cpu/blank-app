@@ -713,18 +713,14 @@ def data_to_tiles(df_data=None): #<=============================================
     row_cont = st.columns(nb_rows)
     #st.columns(nb_cells_per_row-1)
     for i, source_row in source.iterrows():
-        try:
-            row_cont[current_row].empty()
-        except:
-            strContent=''
         if current_cell == 0:
             row_cont[current_row] = st.columns(nb_cells_per_row, border=True)
         try:
-            record = source[(source['Name'] == str(i))]
             with row_cont[current_row][current_cell]:
                 #st.markdown(f"current_row:{current_row}")
                 #st.markdown(f"current_cell:{current_cell}")
-                st.container(horizontal_alignment='center',gap=None).build_tile_pic(source_row['URL'])
+                #st.container(horizontal_alignment='center',gap=None).build_tile_pic(source_row['URL'])
+                build_tile_pic(source_row['URL'])
                 st.markdown(source_row['Name'])
                 col1, col2 = st.columns(2)
                 col1.write('Type')

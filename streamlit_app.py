@@ -240,7 +240,7 @@ def build_any_table(raw_data,title_expander) -> pd.DataFrame:
                   format="compact",
             )
          },
-         hide_index=True,
+         hide_=True,
       )
      except:
         st.write('No filter applyed',df)
@@ -268,7 +268,7 @@ def build_exp_table(raw_data,title_expander) -> pd.DataFrame:
                      format="compact",
                )
             },
-            hide_index=True,
+            hide_=True,
          )
       total_col = f"Total cost from {range_level_min} to {range_level_max}"
       total_cost = df.Cost.sum()
@@ -288,7 +288,7 @@ def build_exp_table(raw_data,title_expander) -> pd.DataFrame:
                   format="compact",
             )
          },
-         hide_index=True,
+         hide_=True,
       )
      except:
         st.write('No filter applyed',df)
@@ -692,6 +692,7 @@ def data_to_tiles(df_data=None): #<=============================================
         source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
     else:
         source = df_data
+    source.reset_index(drop=True)
     st.write(source)
     trows= len(source['Name'])
     if trows > 5:

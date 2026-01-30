@@ -587,6 +587,15 @@ def pg_test_graph():
       #page_title="yFiles Graphs for Streamlit",
       layout="wide",
    )
+   field_x = 'Level'
+   field_y = 'Stars'
+   on = st.toggle(f'Switch axis {field_x}/{field_y}')
+   if on:
+       field_y = 'Level'
+       field_x = 'Stars'
+   else:
+       field_x = 'Level'
+       field_y = 'Stars'
     
    #Graphe per type
    chart = {
@@ -597,11 +606,11 @@ def pg_test_graph():
     ],
     "encoding": {
         "x": {
-            "field": "Level",
+            "field": field_x,
             "type": "quantitative",
         },
         "y": {
-            "field": "Stars",
+            "field": field_y,
             "type": "quantitative",
         },
         "size": {"field": "Achievement", "type": "quantitative"},

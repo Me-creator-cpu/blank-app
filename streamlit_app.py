@@ -688,10 +688,13 @@ def pg_test_tiles():
     data_to_tiles()
 
 def data_to_tiles(df_data=None): #<================================================================================================================================================
-    if df_data is None:
-        source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
-    else:
-        source = df_data
+    source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
+    if df_data is not None:
+            source['Name'] = df_data['Name']
+    #if df_data is None:
+    #    source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
+    #else:
+    #    source = df_data
     source.reset_index(drop=True)
     st.write(source)
     trows= len(source['Name'])

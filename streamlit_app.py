@@ -774,6 +774,8 @@ def pg_options():
         st.write(f"Feature activated! ({on_logo})")
     with_logo(on_logo)
     st.session_state.bln_with_logo = on_logo
+    st.write(f"st.session_state.bln_with_logo ({st.session_state.bln_with_logo})")
+    st.write(f"with_logo(on_logo) ({with_logo(on_logo)})")
 
 # ===========================================================
 #   Lancement

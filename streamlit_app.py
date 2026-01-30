@@ -3,6 +3,7 @@ import pandas as pd
 import calendar
 import sys
 import time
+import math
 from streamlit_javascript import st_javascript
 from user_agents import parse
 from streamlit_dynamic_filters import DynamicFilters
@@ -691,10 +692,6 @@ def data_to_tiles(df_data=None): #<=============================================
     source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
     if df_data is not None:
             source = df_srv[df_srv['Name'].isin(df_data['Name'])] 
-    #if df_data is None:
-    #    source = df_srv[['Name', 'Type', 'Skill', 'Level', 'Stars', 'URL']]
-    #else:
-    #    source = df_data
     source.reset_index(drop=True)
     trows= len(source['Name'])
     if trows > 5:
@@ -711,8 +708,7 @@ def data_to_tiles(df_data=None): #<=============================================
 
     current_row=0
     current_cell=0
-    palidx=0
-    row_cont = st.columns(total_cells_per_row_or_col-1)
+    row_cont = math.ceil(trows/total_cells_per_row_or_col) #st.columns(total_cells_per_row_or_col-1)
     for i, source_row in source.iterrows():
         try:
             row_cont[current_row].empty()
@@ -721,27 +717,17 @@ def data_to_tiles(df_data=None): #<=============================================
         if current_cell == 0:
             row_cont[current_row] = st.columns(total_cells_per_row_or_col , border=True)
         try:
-            #df_srv[column].unique()
             record = source[(source['Name'] == str(i))]
             with row_cont[current_row][current_cell]:
                 #st.markdown(f"current_row:{current_row}")
                 #st.markdown(f"current_cell:{current_cell}")
-                build_tile_pic(source_row['URL'])
+                st.container(horizontal_alignment='center',gab=None).build_tile_pic(source_row['URL'])
                 st.markdown(source_row['Name'])
                 col1, col2 = st.columns(2)
                 col1.write('Type')
                 col2.write(source_row['Type'])
-                if 1 == 2:
-                    #build_tile_pic(source.URL[palidx])
-                    st.markdown(source.Name[palidx])
-                    col1, col2 = st.columns(2)
-                    #st.columns(2,border=col_border, width="stretch")
-                    col1.write('Type')
-                    col2.write(source.Type[palidx])
-                    #st.markdown(build_tile(source.Name[palidx],source.URL[palidx],int(source.Level[palidx]),int(source.Stars[palidx]),source.Skill[palidx],source.Type[palidx]))
         except:
             strContent=''
-        palidx=palidx+1
         current_cell=current_cell+1
         if current_cell > total_cells_per_row_or_col-1:
             current_cell = 0

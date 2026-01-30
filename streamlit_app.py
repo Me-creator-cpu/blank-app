@@ -724,6 +724,9 @@ def data_to_tiles(df_data=None): #<=============================================
         if current_cell == 0:
             row_cont[current_row] = st.columns(total_cells_per_row_or_col , border=True)
         try:
+            #df_srv[column].unique()
+            record=source(0)
+            record
             with row_cont[current_row][current_cell]:
                 st.markdown(f"current_row:{current_row}")
                 st.markdown(f"current_cell:{current_cell}")

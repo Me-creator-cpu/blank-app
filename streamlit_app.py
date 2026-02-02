@@ -682,16 +682,21 @@ def data_to_tiles(df_data=None): #<=============================================
         nb_cells_per_row = trows
     if nb_cells_per_row == 0:
         nb_cells_per_row = 3
-        
+
+    nb_rows=int(math.ceil(trows/nb_cells_per_row))
+    current_row=0
+    current_cell=0
+    
+    if str(st.session_state.is_session_pc) != 'True':
+        nb_cells_per_row = 1
+        nb_rows = trows
+
+    row_cont = st.columns(nb_rows)
+    
     #st.markdown(f"nb_cells_per_row: {nb_cells_per_row}")
     #st.markdown(f"trows: {trows}")
     #st.markdown(f"cards lines: {trows/nb_cells_per_row}")
     #st.markdown(f"cards lines int: {int(trows/nb_cells_per_row)}")
-
-    current_row=0
-    current_cell=0
-    nb_rows=int(math.ceil(trows/nb_cells_per_row))
-    row_cont = st.columns(nb_rows)
 
     for i, source_row in source.iterrows():
         if current_cell == 0:
